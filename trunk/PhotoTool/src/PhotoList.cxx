@@ -102,6 +102,7 @@ void PhotoList::SetList(const PhotoArray& list)
     Refresh();
 }
 
+
 Photo PhotoList::GetPhoto()
 {
     size_t id = GetSelection();
