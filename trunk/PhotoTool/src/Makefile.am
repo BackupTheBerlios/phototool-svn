@@ -1,9 +1,11 @@
 
 SUFFIXES=.cxx
 
-bin_PROGRAMS	  = PhotoTool
-PhotoTool_LDADD   = $(WX_LIBS) -lwx_gtk2u_foldbar-2.5
-PhotoTool_SOURCES = \
+# TODO -lwx_gtk2u_foldbar-2.5
+
+bin_PROGRAMS	  = phototool
+phototool_LDADD   = $(WX_LIBS) 
+phototool_SOURCES = \
 	   AboutDialog.cxx AboutDialog.h \
 	   Album.cxx Album.h \
 	   Camera.cxx Camera.h \
@@ -30,6 +32,8 @@ PhotoTool_SOURCES = \
 	   PhotoTool.cxx PhotoTool.h \
 	   Record.cxx Record.h \
 	   SetupDialog.cxx SetupDialog.h \
+	   PluginBase.cxx PluginBase.h \
+	   PhotoEditPlugin.cxx PhotoEditPlugin.h \
 	   SlideShowDialog.cxx SlideShowDialog.h \
 	   SlideShowFrame.cxx SlideShowFrame.h \
 	   sqlite.cxx SQL.h Util.h Config.h \
@@ -37,10 +41,10 @@ PhotoTool_SOURCES = \
 	   TestPage.cxx TestPage.h \
 	   ThumbList.cxx ThumbList.h \
 	   ViewerPage.cxx ViewerPage.h \
+	   ViewerPanel.cxx ViewerPanel.h \
 	   wxBoxList.cxx wxBoxList.h \
 	   wxExif.cxx wxExif.h \
-	   wxExifList.cxx wxExifList.h \
-	   ViewerPanel.cxx ViewerPanel.h
+	   wxExifList.cxx wxExifList.h
 
 CXXFLAGS=@CXXFLAGS@ -I. -I$(top_srcdir)/include 
 CPPFLAGS=@CPPFLAGS@ -I. -I$(top_srcdir)/include

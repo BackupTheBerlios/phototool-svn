@@ -1,4 +1,12 @@
 
+2005-01-20  Bryan Bulten <bryan@bulten.ca>
+
+	* Added --enable-testing for running PhotoTool from the build directory.
+	Still need to figure out how other projects handle this.
+
+	* Moved some things around (wxd, images => share/phototool), created
+	plugins/tester for future plugins.
+
 2005-01-18  Bryan Bulten <bryan@bulten.ca>
 
 	* Added XRC-based photo edit panel.  Implemented black and white

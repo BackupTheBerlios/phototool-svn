@@ -25,6 +25,8 @@
 #include "Notify.h"
 #include "Config.h"
 
+#include "config.h"
+
 #include <wx/xrc/xmlres.h>
 #include <wx/splash.h>
 
@@ -54,7 +56,21 @@ bool PhotoTool::OnInit()
     // TODO: Loading XML resources results in slow start times, is there a
     // better way to do it?
 
-    if (!wxXmlResource::Get()->Load(_T("../wxd/PhotoTool_wdr.xrc"))) {
+    wxString resourcePath;
+
+#if defined(__WXMSW__) || defined(TESTING)
+    // Windows or testing
+    resourcePath << _T("..");
+#else 
+    // Linux/UNIX
+    resourcePath << PHOTOTOOL_PREFIX << wxFILE_SEP_PATH << _T("share") <<
+                 << wxFILE_SEP_PATH << _("phototool");
+#endif
+
+    resourcePath << wxFILE_SEP_PATH << _T("wxd") << wxFILE_SEP_PATH
+                 << _T("PhotoTool_wdr.xrc");
+
+    if (!wxXmlResource::Get()->Load(resourcePath)) {
         Notify::Error(NULL, _T("Error loading XRC resources.\nExiting."));
         return false;
     }
@@ -79,7 +95,22 @@ int PhotoTool::OnExit()
 void PhotoTool::ShowSplash()
 {
     wxBitmap bmp;
-    bmp.LoadFile(_T("./images/splash.png"), wxBITMAP_TYPE_PNG);
+
+    wxString splashPath;
+
+#if defined(__WXMSW__) || defined(TESTING)
+    // Windows or testing
+    splashPath << _T("..");
+#else 
+    // Linux/UNIX
+    splashPath << PHOTOTOOL_PREFIX << wxFILE_SEP_PATH << _T("share") <<
+               << wxFILE_SEP_PATH << _("phototool");
+#endif
+
+    splashPath << wxFILE_SEP_PATH << _T("images") << wxFILE_SEP_PATH
+               << _T("splash.png");
+
+    bmp.LoadFile(splashPath, wxBITMAP_TYPE_PNG);
 
     new wxSplashScreen(bmp, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
                        7000, NULL, -1, wxDefaultPosition, wxDefaultSize,

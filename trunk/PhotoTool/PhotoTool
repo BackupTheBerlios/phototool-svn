@@ -6,5 +6,5 @@ basedir=`dirname $0`
 sed -r -i 's/wxPanel\"\ subclass=\"//' $basedir/wxd/PhotoTool_wdr.xrc
 
 cd "$basedir/src"
-./PhotoTool $@
+./phototool $@
 
