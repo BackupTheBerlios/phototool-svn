@@ -53,8 +53,12 @@ LookupList::LookupList(wxWindow *parent)
 
     if (!m_images) {
         m_images = new wxImageList();
-        m_images->Add(wxBitmap(_T("icons/jump-to.png")));
-        m_images->Add(wxBitmap(_T("icons/open.png")));
+
+        #include "./icons/location.xpm"
+        #include "./icons/album.xpm"
+
+        m_images->Add(wxBitmap(location));
+        m_images->Add(wxBitmap(album));
     }
 
     SetImageList(m_images, wxIMAGE_LIST_SMALL);

@@ -24,9 +24,10 @@ CXXFLAGS="$CXXFLAGS $WX_CPPFLAGS"
 CPPFLAGS="$CPPFLAGS $WX_CPPFLAGS"
 AC_SUBST(WX_LIBS)
 
+dnl TODO: sqlite.cxx looks for these dynamically at runtime
 dnl wxSqlite + sqlite
-AC_CHECK_HEADERS(sqlite.h)
-AC_CHECK_LIB(sqlite, sqlite_open)
+dnl AC_CHECK_HEADERS(sqlite.h)
+dnl AC_CHECK_LIB(sqlite, sqlite_open)
 
 dnl Debugging
 AC_ARG_ENABLE(debug, [  --enable-debug          Compile with debugging information], 

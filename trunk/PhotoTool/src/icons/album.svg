@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="64pt"
+   height="64pt"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg5464"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/bryan/projects/PhotoTool/src/icons"
+   sodipodi:docname="album.svg"
+   inkscape:export-filename="/home/bryan/projects/PhotoTool/src/icons/album.png"
+   inkscape:export-xdpi="27.000000"
+   inkscape:export-ydpi="27.000000">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.6250000"
+     inkscape:cx="32.000000"
+     inkscape:cy="31.908195"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     inkscape:window-width="853"
+     inkscape:window-height="664"
+     inkscape:window-x="66"
+     inkscape:window-y="37" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <g
+       id="g10458"
+       transform="matrix(0.928672,0.000000,0.000000,0.928672,4.437730,6.515824)">
+      <rect
+         style="fill:#915233;fill-opacity:1.0000000;stroke:#000000;stroke-width:1.1719584;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+         id="rect5474"
+         width="50.988918"
+         height="56.417973"
+         x="24.388687"
+         y="-25.006418"
+         transform="matrix(0.786095,0.618106,-0.591693,0.806163,0.000000,0.000000)" />
+      <path
+         style="fill:#dbd0ca;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.93750000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+         d="M 40.663867,71.630763 L 40.922131,77.663934 L 73.688525,34.241803 L 73.852459,26.413934 L 40.663867,71.630763 z "
+         id="path6726"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         style="fill:#a9a19c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.1875000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+         d="M 40.655738,71.803279 L 40.594262,77.827868 L 0.75819672,47.336066 L 0.92213115,40.819672 L 40.655738,71.803279 z "
+         id="path7348"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         style="fill:#de7744;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0625000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+         d="M 3.6065574,42.295082 L 36.618852,-2.9508197 L 33.750000,-5.0000000 L 1.2500000,40.000000 L 3.6065574,42.295082 z "
+         id="path9212"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-size:24.000000;font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#452314;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:URW Chancery L;text-anchor:start;writing-mode:lr"
+         x="23.442623"
+         y="32.295082"
+         id="text9834"
+         sodipodi:linespacing="100%"
+         transform="matrix(2.246953,1.865726,-1.502301,2.324385,7.999507,-86.85101)"><tspan
+           sodipodi:role="line"
+           id="tspan9835"
+           x="23.442623"
+           y="32.295082">A</tspan></text>
+    </g>
+  </g>
+</svg>

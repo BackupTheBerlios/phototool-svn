@@ -63,9 +63,9 @@ BEGIN_EVENT_TABLE(Frame, wxFrame)
 END_EVENT_TABLE()
 
 #define TOOL(icon, id, text, help) { \
-        wxBitmap bitmap(_T("icons/") _T(icon) _T(".png")); \
-        toolBar->AddTool(XRCID(id), _T(text), bitmap, wxNullBitmap, \
-                         wxITEM_NORMAL, _T(help), _T(help)); \
+            wxBitmap bitmap(icon); \
+            toolBar->AddTool(XRCID(id), _T(text), bitmap, wxNullBitmap, \
+                             wxITEM_NORMAL, _T(help), _T(help)); \
         }
 
 Frame::Frame(const wxString& title)
@@ -84,17 +84,24 @@ Frame::Frame(const wxString& title)
                                        /*wxTB_TEXT | */wxTB_FLAT);
     toolBar->SetMargins(3, 3);
 
-    TOOL("import", "FileImport", "Import", "Import photos into database")
+    #include "./icons/import.xpm"
+    #include "./icons/edit.xpm"
+    #include "./icons/trash.xpm"
+    #include "./icons/show.xpm"
+    #include "./icons/prefs.xpm"
+    #include "./icons/help.xpm"
+    #include "./icons/exit.xpm"
+
+    TOOL(import, "FileImport", "Import", "Import photos into database")
     toolBar->AddSeparator();
-    TOOL("edit", "PhotoEdit", "Edit", "Edit selected photo")
-    TOOL("delete", "PhotoDelete", "Delete", "Delete selected photo")
-    TOOL("insert-image", "PhotoSlideShow", "Slide Show", "Start a slide show")
+    TOOL(edit, "PhotoEdit", "Edit", "Edit selected photo")
+    TOOL(trash, "PhotoDelete", "Delete", "Delete selected photo")
+    TOOL(show, "PhotoSlideShow", "Slide Show", "Start a slide show")
     toolBar->AddSeparator();
-    TOOL("preferences", "EditPreferences", "Setup", 
-         "Edit application preferences")
-    TOOL("about", "HelpAbout", "About", "About this application")
+    TOOL(prefs, "EditPreferences", "Setup", "Edit application preferences")
+    TOOL(help, "HelpAbout", "About", "About this application")
     toolBar->AddSeparator();
-    TOOL("exit", "FileExit", "Exit", "Exit this application")
+    TOOL(exit, "FileExit", "Exit", "Exit this application")
 
     SetToolBar(toolBar);
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="64pt"
+   height="64pt"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg10266"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/bryan/projects/PhotoTool/data/icons"
+   sodipodi:docname="prefs.svg"
+   inkscape:export-filename="/home/bryan/projects/PhotoTool/data/icons/prefs.png"
+   inkscape:export-xdpi="27.000000"
+   inkscape:export-ydpi="27.000000">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6620536"
+     inkscape:cx="38.597095"
+     inkscape:cy="24.772375"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="858"
+     inkscape:window-height="671"
+     inkscape:window-x="97"
+     inkscape:window-y="47" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#a8a8a8;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#3f3f3f;stroke-width:2.9252970;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;marker-mid:none"
+       d="M 30.407230,37.780135 L 73.435851,76.039592 L 77.285108,71.117695 L 39.278543,31.222717 L 43.851653,14.065842 L 36.728627,3.1180134 L 20.885003,2.6473864 L 21.171679,10.249226 L 31.210033,11.112012 L 36.068232,17.141236 L 32.331874,26.090080 L 25.873873,30.280257 L 16.381163,31.708207 L 11.112075,26.963601 L 13.221374,17.257548 L 5.2424937,15.426873 L 2.2144307,27.527134 L 11.347982,38.898868 L 30.407230,37.780135 z "
+       id="path10280"
+       sodipodi:nodetypes="ccccccccccccccccccc" />
+    <g
+       id="g12150"
+       transform="matrix(0.570872,0.571017,-0.709876,0.636723,79.14236,52.10326)">
+      <a
+         id="a12148">
+        <path
+           style="fill:#110980;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#616161;stroke-width:2.7125001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+           d="M -33.777497,67.636995 C -49.779232,68.162304 -50.000000,67.500000 -50.000000,67.500000 L -50.000000,22.500000 L -44.486912,19.266144 L -38.970768,19.045376 L -34.191536,22.646160 L -33.777497,67.636995 z "
+           id="path10904"
+           sodipodi:nodetypes="ccccccc" />
+      </a>
+      <path
+         style="fill:#bdbdbd;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#636363;stroke-width:2.7125001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+         d="M -43.932823,19.068044 C -43.308464,-4.7792320 -44.191536,-17.363006 -44.191536,-17.363006 L -47.058464,-19.642238 L -46.396160,-28.538398 L -38.532287,-28.759166 L -37.649215,-19.642238 L -40.441536,-17.363006 L -39.558464,18.970768 L -43.932823,19.068044 z "
+         id="path10905"
+         sodipodi:nodetypes="ccccccccc" />
+    </g>
+  </g>
+</svg>

@@ -39,6 +39,6 @@ PhotoTool_SOURCES = \
 	   wxBoxList.cxx wxBoxList.h \
 	   ViewerPanel.cxx ViewerPanel.h
 
-CXXFLAGS=@CXXFLAGS@ -I. -I$(top_srcdir)/include
+CXXFLAGS=@CXXFLAGS@ -I. -I$(top_srcdir)/include 
 CPPFLAGS=@CPPFLAGS@ -I. -I$(top_srcdir)/include
 
