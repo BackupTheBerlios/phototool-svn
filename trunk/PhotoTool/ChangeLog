@@ -3,6 +3,8 @@
 
 	* Added wxExifList and MetadataDialog for viewing exif metadata.
 
+	* Re-vamped some of the icons to make their purpose a little clearer.
+
 2005-08-2005  Bryan Bulten <bryan@bulten.ca>
 
 	* Added wxExif, a class for retrieving file exif information.  Loads

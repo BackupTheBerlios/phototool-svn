@@ -83,7 +83,7 @@ Frame::Frame(const wxString& title)
     // Initialize the toolbar
     wxToolBar *toolBar = new wxToolBar(this, wxID_ANY, 
                                        wxDefaultPosition, wxDefaultSize, 
-                                       /*wxTB_TEXT | */wxTB_FLAT);
+                                       wxTB_FLAT | wxTB_HORIZONTAL);
     toolBar->SetMargins(3, 3);
 
     #include "./icons/import.xpm"
@@ -91,7 +91,7 @@ Frame::Frame(const wxString& title)
     #include "./icons/trash.xpm"
     #include "./icons/show.xpm"
     #include "./icons/prefs.xpm"
-    #include "./icons/help.xpm"
+    #include "./icons/about.xpm"
     #include "./icons/exit.xpm"
 
     TOOL(import, "FileImport", "Import", "Import photos into database")
@@ -101,7 +101,7 @@ Frame::Frame(const wxString& title)
     TOOL(show, "PhotoSlideShow", "Slide Show", "Start a slide show")
     toolBar->AddSeparator();
     TOOL(prefs, "EditPreferences", "Setup", "Edit application preferences")
-    TOOL(help, "HelpAbout", "About", "About this application")
+    TOOL(about, "HelpAbout", "About", "About this application")
     toolBar->AddSeparator();
     TOOL(exit, "FileExit", "Exit", "Exit this application")
 
