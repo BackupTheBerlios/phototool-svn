@@ -1,0 +1,57 @@
+PhotoTool TODO List
+-------------------
+
+- Browser notebook on main frame with PageBase interface
+    - EditPage
+    - ViewerPage
+
+- Evolve ViewerPanel, ViewerFrame should use something else (?)
+
+- AlbumList: Change from wxListBox to a better check list box
+    - Try using wxHtmlListBox with HTML check boxes for the album selection
+      list.
+
+- Add slide show control panel to SlideShowFrame to complement keyboard
+  controls.
+
+- Ordering in PhotoList
+- Search dialog
+- PhotoQuery interface
+
+- Startup
+    - Open setup dialog on first start
+    - Optional splash screen
+
+- Plugin interface
+    - Plugin directory in photo directory
+    - PluginDialog, PluginManager, PluginBase
+    - Plugin menu
+
+- Database fixes
+    - Remove 'external' attribute, and use empty file name to indicate internal
+      storage instead.
+    - Date field to album
+
+- Single library database, or events to notify controls about database changes.
+
+- Use working folder for editing photos, and keep original.
+
+- Popup menu on LookupList for creation and removal of albums and locations.
+    - Removal of location or album should warn, then remove references to
+      it.
+- Add 'Remove from Album' to photo (popup) menu, Library::Delete(photo, album);
+
+- Drag and drop of photos 
+    - Add drag source support to ThumbList
+    - To change ordering
+
+- Import status
+    - Should be able to work with PhotoTool as photos are being imported.
+
+- Library sends events when things updates happen.
+
+- Wishlist:
+    - Record audio description with picture
+    - Import video clips
+    - Camera integration
+

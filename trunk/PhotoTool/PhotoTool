@@ -1,0 +1,10 @@
+#!/bin/sh
+
+basedir=`dirname $0`
+
+# Update XRC file
+sed -r -i 's/wxPanel\"\ subclass=\"//' $basedir/wxd/PhotoTool_wdr.xrc
+
+cd "$basedir/src"
+./PhotoTool $@
+
