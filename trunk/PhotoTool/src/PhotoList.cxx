@@ -51,10 +51,10 @@ wxString PhotoList::OnGetItem(unsigned int n) const
     html << _T("<table border=0 width=\"100%\">") _T("<tr>");
 
     // Thumbnail
-    wxString thumbPath = photo.GetThumbPath();
-    thumbPath.Replace(_T(":"), _T("%3A"));
+    wxString thumbFile = photo.GetThumbFileName();
+    thumbFile.Replace(_T(":"), _T("%3A"));
     html << _T("<td rowspan=2 width=140>") 
-         << _T("<img src=\"") << thumbPath << _T("\" />")
+         << _T("<img src=\"") << thumbFile << _T("\" />")
          << _T("</td>");
          
     // Name

@@ -158,7 +158,6 @@ bool ImportDialog::TransferDataFromWindow()
     Camera camera = Library::Get()->GetCamera(def);
 
     // Import path
-    wxString importPath = Config::GetBasePath();
     long nextId = Library::Get()->GetNextPhotoId();
 
     for(size_t i = 0; i < m_importList.Count(); i++) {
@@ -178,21 +177,13 @@ bool ImportDialog::TransferDataFromWindow()
         photo.SetCamera(camera);
         photo.SetLocation(location);
 
-        if (copy) {
-            photo.SetExternalFileName(wxEmptyString);
+        photo.SetExternalFileName(wxEmptyString);
 
-            if (!Library::Get()->Update(photo)) {
-                Notify::Error(this, _T("Failed to insert into database"));
-                return false;
-            }
+        if (copy) {
+            Library::Get()->Update(photo);
 
             // Copy the file into the import path
-            wxString newPath;
-            newPath << importPath << wxFILE_SEP_PATH 
-                    << nextId << _T(".jpg");
-            nextId++;
-
-            wxCopyFile(fileName.GetFullPath(), newPath); 
+            wxCopyFile(fileName.GetFullPath(), photo.GetFileName()); 
 
             if (remove) {
                 // Remove the existing file
@@ -202,14 +193,11 @@ bool ImportDialog::TransferDataFromWindow()
         } else {
             // Record the path
             photo.SetExternalFileName(fileName.GetFullPath());
+            Library::Get()->Update(photo);
         }
 
-        // Put the photo in the library
-        if (!Library::Get()->Update(photo)) {
-            // TODO
-            Notify::Error(this, _T("There was an error updating the database"));
-            return false;
-        }
+        wxSafeYield();
+        nextId++;
     }
 
     return success;

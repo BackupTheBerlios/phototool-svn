@@ -1,28 +1,39 @@
 
-2005-09-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-13  Bryan Bulten <bryan@bulten.ca>
+
+	* Changed photo storage to use <base>/YYYY/MM/DD/HH-mm-ss as the base
+	location for storing images, thumbnails, and working copies.  This will
+	make it easier to find photos outside of PhotoTool, and faster for
+	applications/operating systems that can't handle a large number of files
+	in a directory.
+
+	* Updated PhotoDialog to move the image files when the taken date is
+	changed.
+
+2005-01-09  Bryan Bulten <bryan@bulten.ca>
 
 	* Added wxExifList and MetadataDialog for viewing exif metadata.
 
 	* Re-vamped some of the icons to make their purpose a little clearer.
 
-2005-08-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-08  Bryan Bulten <bryan@bulten.ca>
 
 	* Added wxExif, a class for retrieving file exif information.  Loads
 	metadata into a hash, no editing support provided yet.
 
-2005-07-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-07  Bryan Bulten <bryan@bulten.ca>
 
 	* Created new icons using InkScape.  Icons are in SVG format, and were
 	converted to XPM.  Eventually these icons should be redone by someone with
 	a little more skill ;-) .
 
-2005-06-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-06  Bryan Bulten <bryan@bulten.ca>
 
 	* Removed LibraryView, and send specific events to registered windows.
 	This is cleaner, since handlers can just use their event tables, and no
 	multiple inheritance is necessary.
 
-2005-05-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-05  Bryan Bulten <bryan@bulten.ca>
 
 	* Added GPL license statements to source files.
 
@@ -31,7 +42,7 @@
 
 	* Added EVT_PHOTO_SELECTED and EVT_PHOTOS_SELECTED.
 
-2005-03-2005  Bryan Bulten <bryan@bulten.ca>
+2005-01-03  Bryan Bulten <bryan@bulten.ca>
 
 	* Tested and fixed importing.  Changed to use modification file time
 	instead of creation time.
@@ -43,12 +54,12 @@
 
 	* Moved repository to BerliOS for public development.
 
-2004-31-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-31  Bryan Bulten <bryan@bulten.ca>
 
 	* Began SlideShowDialog.  Can display slide show of selected album with
 	specified transition time.
 
-2004-30-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-30  Bryan Bulten <bryan@bulten.ca>
 
 	* Finished drag and drop support from PhotoList.  Created PhotoDropEvent
 	for drop handlers.  Photos can now be dragged onto locations or albums.
@@ -56,13 +67,13 @@
 	* Fixed PhotoEvent constructor, so that event type was set correctly.
 	Event now works as expected.
 
-2004-29-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-29  Bryan Bulten <bryan@bulten.ca>
 
 	* Began EditPage.  Just has a few empty buttons, no real functionality
 	yet.  Still deciding whether or not to use a plugin interface for the
 	components of the EditPanel.
 
-2004-28-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-28  Bryan Bulten <bryan@bulten.ca>
 
 	* Began wxBoxList and wxBoxListItem to simplify logic in the ThumbList
 	class.
@@ -74,7 +85,7 @@
 
 	* Tested and fixed photo deletion.
 
-2004-27-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-27  Bryan Bulten <bryan@bulten.ca>
 
 	* Began ThumbList for displaying a list of thumbnails
 
@@ -90,19 +101,19 @@
 	* Changed 'category' to 'album' throughout application.  This is probably
 	easier to understand for users.
 
-2004-26-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-26  Bryan Bulten <bryan@bulten.ca>
 
 	* Added PhotoEvent, used for notifying listeners about changes to the list
 	of photos to be displayed
 
-2004-24-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-24  Bryan Bulten <bryan@bulten.ca>
 
 	* Added CategoryList control.
 
 	* Added LookupPage, which features a LookupList (categories and locations)
 	and a TakenCalendar.
 
-2004-23-2004  Bryan Bulten <bryan@bulten.ca>
+2004-12-23  Bryan Bulten <bryan@bulten.ca>
 
 	* Changed lookup queries to use wxArrayString for easier memory
 	management, and less syntatic sugar.
@@ -114,7 +125,7 @@
 	* Used wxNotebook page changed event to update photo selection on new page
 	from old page.
 
-2004-22-2004 Bryan Bulten <bryan@bulten.ca>
+2004-12-22 Bryan Bulten <bryan@bulten.ca>
 
 	* Created toolbar.  Currently using external .png files, since I couldn't
 	get transparency to work automatically in wxDesigner.

@@ -28,48 +28,65 @@
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY(PhotoArray);
 
+wxString Photo::GetBaseName() const
+{
+    // <base path>/<year>/<month>/<day>/<hour>-<minute>-<second>
+    wxString base;
+    base << Config::GetBasePath() << wxFILE_SEP_PATH;
+
+    // Year
+    base << m_taken.Format(_T("%Y")) << wxFILE_SEP_PATH;
+    if (!wxDirExists(base)) wxMkdir(base);
+
+    // Month
+    base << m_taken.Format(_T("%m")) << wxFILE_SEP_PATH;
+    if (!wxDirExists(base)) wxMkdir(base);
+
+    // Day
+    base << m_taken.Format(_T("%d")) << wxFILE_SEP_PATH;
+    if (!wxDirExists(base)) wxMkdir(base);
+
+    // File name
+    base << m_taken.Format(_T("%H-%M-%S"));
+    return base;
+}
+
 wxString Photo::GetFileName() const
 {
     if (m_file.Length() > 0 || GetId() < 0) {
         return m_file;
     } else {
-        wxString file;
-        file << Config::GetBasePath() << wxFILE_SEP_PATH 
-             << GetId() << _T(".jpg");
-        return file;
+        // TODO: Support other formats (format field in database)
+        return GetBaseName() << _T(".jpg");
     }
 }
 
-wxString Photo::GetThumbPath() const
+wxString Photo::GetThumbFileName() const
 {
-    wxString thumbPath;
-    thumbPath << Config::GetBasePath() << wxFILE_SEP_PATH 
-              << _T("thumbs") << wxFILE_SEP_PATH
-              << GetId() << _T(".jpg");
+    wxString thumbFile;
+
+    if (m_file.Length() > 0 || GetId() < 0) {
+        // TODO: Support thumbnails for external files
+        return _T("");
+    } else {
+        thumbFile << GetBaseName() << _T(".thumb.jpg");
+    }
 
     // If the thumbnail image doesn't exist, create it!
-    if (!wxFileExists(thumbPath)) {
+    if (!wxFileExists(thumbFile)) {
         // Open the image and scale it
         Image image(GetFileName());
         image.RescaleAspect(THUMB_WIDTH, THUMB_HEIGHT);
 
         // Save the thumbnail
-        image.SaveFile(thumbPath, wxBITMAP_TYPE_JPEG);
+        image.SaveFile(thumbFile, wxBITMAP_TYPE_JPEG);
     }
 
-    return thumbPath;
-}
-
-wxString Photo::GetBasePath() const
-{
-    wxString basePath;
-    basePath << Config::GetBasePath() << wxFILE_SEP_PATH 
-             << GetId();
-    return basePath;
+    return thumbFile;
 }
 
 wxBitmap Photo::GetBitmap() const
 {
-    return wxImage(GetThumbPath());
+    return wxImage(GetThumbFileName());
 }
 

@@ -58,7 +58,21 @@ bool PhotoDialog::TransferDataFromWindow()
 
     wxDateTime taken;
     taken.ParseFormat(CTRL("DateTime", wxTextCtrl)->GetValue(), DATE_FORMAT);
-    m_photo.SetTaken(taken);
+
+    if (taken != m_photo.GetTaken() && m_photo.IsExternal()) {
+        wxString oldThumbName = m_photo.GetThumbFileName();
+        wxString oldFileName = m_photo.GetFileName();
+
+        m_photo.SetTaken(taken);
+        wxString thumbName = m_photo.GetThumbFileName();
+        wxString fileName = m_photo.GetFileName();
+
+        // Move file to new location
+        wxRenameFile(oldThumbName, thumbName);
+        wxRenameFile(oldFileName, fileName);
+    } else {
+        m_photo.SetTaken(taken);
+    }
 
     result &= Library::Get()->Update(m_photo);
 

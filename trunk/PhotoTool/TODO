@@ -1,8 +1,8 @@
 PhotoTool TODO List
 -------------------
 
-- Use exif for photo metadata (description, camera, etc.)  Only additional
-  field in database should be location.
+- Use exif to initially populate database fields.  Export database information
+  to exif when requested.
 
 - Browser notebook on main frame with PageBase interface
     - EditPage

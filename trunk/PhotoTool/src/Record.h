@@ -99,9 +99,11 @@ public:
     ACCESSOR(Location, m_location, Location)
     ACCESSOR(Camera, m_camera, Camera)
 
-    wxString GetThumbPath() const;
-    wxString GetBasePath() const;
+    wxString GetThumbFileName() const;
+    wxString GetBaseName() const;
     wxBitmap GetBitmap() const;
+
+    bool IsExternal() const { return m_file.Length() == 0; }
 
 private:
     wxString m_file;

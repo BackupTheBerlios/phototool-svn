@@ -61,7 +61,7 @@ wxDragResult PhotoDropTarget::DoDragDrop(wxWindow *source, const Photo& photo)
     PhotoDataObject data(photo);
 
     // Create thumbnail for drag icon
-    Image thumb(photo.GetThumbPath());
+    Image thumb(photo.GetThumbFileName());
     thumb.RescaleAspect(64, 64);
 
     // Create the icon (wxCursor in Windows, wxIcon everywhere else)

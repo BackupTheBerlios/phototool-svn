@@ -57,11 +57,6 @@ bool Library::Load(const wxString& dir)
     if (!wxDirExists(dir))
         wxMkdir(dir);
 
-    // Ensure thumbnail directory exists
-    wxString thumbPath = dir + wxFILE_SEP_PATH + _T("thumbs");
-    if (!wxDirExists(thumbPath))
-        wxMkdir(thumbPath);
-
     bool newLibrary = true;
     wxString database = dir + wxFILE_SEP_PATH + _T("db");
     if (wxFileExists(database))
@@ -495,7 +490,7 @@ bool Library::Delete(Photo& photo)
     if (photo.GetExternalFileName().Length() == 0)
         wxRemoveFile(photo.GetFileName());
     // Remove thumbnail
-    wxRemoveFile(photo.GetThumbPath());
+    wxRemoveFile(photo.GetThumbFileName());
 
     // Remove photo albums
     sql.Clear();

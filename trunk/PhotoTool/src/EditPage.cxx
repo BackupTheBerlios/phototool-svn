@@ -21,10 +21,6 @@
 
 #include "EditPage.h"
 
-// TODO
-#include <wx/statline.h>
-#include <wx/slider.h>
-
 EditPanel::EditPanel(wxWindow *parent)
     : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 
                        wxVSCROLL | wxSUNKEN_BORDER)
