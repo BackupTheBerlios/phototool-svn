@@ -1,4 +1,13 @@
 
+2005-05-2005  Bryan Bulten <bryan@bulten.ca>
+
+	* Added GPL license statements to source files.
+
+	* Added LibraryView interface for library views.  Adapted PhotoList and
+	LookupList to use LibraryView for notifications.
+
+	* Added EVT_PHOTO_SELECTED and EVT_PHOTOS_SELECTED.
+
 2005-03-2005  Bryan Bulten <bryan@bulten.ca>
 
 	* Tested and fixed importing.  Changed to use modification file time

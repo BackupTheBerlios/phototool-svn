@@ -15,6 +15,7 @@ PhotoTool_SOURCES = \
 	   ImportDialog.cxx ImportDialog.h \
 	   InputDialog.cxx InputDialog.h \
 	   Library.cxx Library.h \
+	   LibraryView.cxx LibraryView.h \
 	   ListDialog.cxx ListDialog.h \
 	   Location.cxx Location.h \
 	   LookupList.cxx LookupList.h \

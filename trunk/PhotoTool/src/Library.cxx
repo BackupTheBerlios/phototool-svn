@@ -1,5 +1,26 @@
+/**
+ * PhotoTool is an application for organizing and publishing a collection of
+ * digital images. 
+ *
+ * Copyright (C) 2005  Bryan Bulten (bryan@bulten.ca)
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
 
 #include "Library.h"
+#include "LibraryView.h"
 #include "SQL.h"
 
 #include <wx/filefn.h>
@@ -551,5 +572,47 @@ long Library::GetNextPhotoId()
         return 1;
 
     return query.Fields(0, 0).AsLong();
+}
+
+bool Library::AddView(LibraryView *view)
+{
+    m_views.Add(view);
+    return true;
+}
+
+bool Library::RemoveView(LibraryView *view)
+{
+    for(size_t i = 0; i < m_views.Count(); i++) {
+        if (m_views[i] == view) {
+            m_views.RemoveAt(i);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void Library::NotifyView(const Album& album)
+{
+    for(size_t i = 0; i < m_views.Count(); i++)
+        m_views[i]->OnNotify(album);
+}
+
+void Library::NotifyView(const Photo& photo)
+{
+    for(size_t i = 0; i < m_views.Count(); i++)
+        m_views[i]->OnNotify(photo);
+}
+
+void Library::NotifyView(const Location& location)
+{
+    for(size_t i = 0; i < m_views.Count(); i++)
+        m_views[i]->OnNotify(location);
+}
+
+void Library::NotifyView()
+{
+    for(size_t i = 0; i < m_views.Count(); i++)
+        m_views[i]->OnNotify();
 }
 

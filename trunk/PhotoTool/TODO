@@ -15,8 +15,11 @@ PhotoTool TODO List
   controls.
 
 - Ordering in PhotoList
+- Save selection in PhotoList after re-populating
 - Search dialog
+
 - PhotoQuery interface
+    - Used in conjunction with PhotoArray to populate lists on demand
 
 - Startup
     - Open setup dialog on first start
