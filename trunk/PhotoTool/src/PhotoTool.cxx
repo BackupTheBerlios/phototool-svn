@@ -12,7 +12,7 @@ IMPLEMENT_APP(PhotoTool)
 bool PhotoTool::OnInit()
 {
     // Information about the application
-    SetAppName(_T("PhotoTool2"));
+    SetAppName(_T("PhotoTool"));
     SetVendorName(_T("Bryan Bulten"));
 
     // Initialize configuration options

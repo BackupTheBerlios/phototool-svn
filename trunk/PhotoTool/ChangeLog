@@ -9,6 +9,8 @@
 
 	* Handled year change on TakenCalendar, and made minor refresh fix.
 
+	* Moved repository to BerliOS for public development.
+
 2004-31-2004  Bryan Bulten <bryan@bulten.ca>
 
 	* Began SlideShowDialog.  Can display slide show of selected album with
