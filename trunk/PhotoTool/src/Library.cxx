@@ -415,6 +415,15 @@ Photo Library::QueryPhoto(const wxString& sql)
     return photo;
 }
 
+Photo Library::GetPhoto(const wxDateTime& taken)
+{
+    wxString sql;
+    sql << _T("SELECT * FROM photo WHERE taken = ") << taken.GetTicks();
+
+    Photo photo = QueryPhoto(sql);
+    return photo;
+}
+
 Photo Library::GetPhoto(const wxString& fileName)
 {
     wxString sql;
@@ -424,10 +433,11 @@ Photo Library::GetPhoto(const wxString& fileName)
     Photo photo = QueryPhoto(sql);
     if (photo.Ok()) return photo;
 
-    // Parse name into ID component
-    int id;
-    wxFileName(fileName).GetName().ToLong((long*)&id);
-    return GetPhoto(id);
+    // Parse name into taken component
+    wxDateTime taken;
+    taken.ParseFormat(fileName.Right(23).c_str(), Photo::GetFileNameFormat());
+
+    return GetPhoto(taken);
 }
 
 Photo Library::GetPhoto(int id)

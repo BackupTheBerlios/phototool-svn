@@ -55,6 +55,7 @@ public:
 
     // Photo management
     Photo GetPhoto(const wxString& fileName);
+    Photo GetPhoto(const wxDateTime& taken);
     bool Update(Photo& photo);
     bool Delete(Photo& photo);
     long GetNextPhotoId();

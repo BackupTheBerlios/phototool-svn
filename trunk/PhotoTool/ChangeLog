@@ -1,4 +1,9 @@
 
+2005-01-16  Bryan Bulten <bryan@bulten.ca>
+
+	* Fixed bug in drag and drop that resulted from changing the photo storage
+	mechanism.  Still need to handle database photo duplicates.
+
 2005-01-13  Bryan Bulten <bryan@bulten.ca>
 
 	* Changed photo storage to use <base>/YYYY/MM/DD/HH-mm-ss as the base

@@ -105,6 +105,14 @@ public:
 
     bool IsExternal() const { return m_file.Length() == 0; }
 
+    static wxString GetFileNameFormat() 
+    {
+        wxString format;
+        format << _T("%Y") << wxFILE_SEP_PATH << _T("%m") << wxFILE_SEP_PATH
+               << _T("%d") << wxFILE_SEP_PATH << _T("%H-%M-%S");
+        return format;
+    }
+
 private:
     wxString m_file;
 
