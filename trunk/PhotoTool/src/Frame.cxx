@@ -64,8 +64,18 @@ BEGIN_EVENT_TABLE(Frame, wxFrame)
     EVT_NOTEBOOK_PAGE_CHANGED(wxID_ANY, Frame::OnPageChanged)
 END_EVENT_TABLE()
 
+#if 0
 #define TOOL(icon, id, text, help) { \
             wxBitmap bitmap(icon); \
+            toolBar->AddTool(XRCID(id), _T(text), bitmap, wxNullBitmap, \
+                             wxITEM_NORMAL, _T(help), _T(help)); \
+        }
+#endif
+
+#define TOOL(icon, id, text, help) { \
+            wxString iconFile = Config::GetDataPath(); \
+            iconFile << _T("icons") << wxFILE_SEP_PATH << _T(icon); \
+            wxBitmap bitmap = wxImage(iconFile); \
             toolBar->AddTool(XRCID(id), _T(text), bitmap, wxNullBitmap, \
                              wxITEM_NORMAL, _T(help), _T(help)); \
         }
@@ -86,24 +96,26 @@ Frame::Frame(const wxString& title)
                                        wxTB_FLAT | wxTB_HORIZONTAL);
     toolBar->SetMargins(3, 3);
 
-    #include "./icons/import.xpm"
-    #include "./icons/edit.xpm"
-    #include "./icons/trash.xpm"
-    #include "./icons/show.xpm"
-    #include "./icons/prefs.xpm"
-    #include "./icons/about.xpm"
-    #include "./icons/exit.xpm"
-
-    TOOL(import, "FileImport", "Import", "Import photos into database")
+    TOOL("import.png", "FileImport", "Import", 
+         "Import photos into database")
+    TOOL("export.png", "FileImport", "Export", 
+         "Export photos from the database") // TODO
     toolBar->AddSeparator();
-    TOOL(edit, "PhotoEdit", "Edit", "Edit selected photo")
-    TOOL(trash, "PhotoDelete", "Delete", "Delete selected photo")
-    TOOL(show, "PhotoSlideShow", "Slide Show", "Start a slide show")
+    TOOL("edit.png", "PhotoEdit", "Edit", 
+         "Edit selected photo")
+    TOOL("adjust.png", "PhotoEdit", "Adjust", 
+         "Adjust selected photo") // TODO
+    TOOL("view.png", "PhotoEdit", "View", 
+         "View selected photo") // TODO
+    TOOL("delete.png", "PhotoDelete", "Delete", 
+         "Delete selected photo")
+    TOOL("slideshow.png", "PhotoSlideShow", "Slide Show", 
+         "Start a slide show")
     toolBar->AddSeparator();
-    TOOL(prefs, "EditPreferences", "Setup", "Edit application preferences")
-    TOOL(about, "HelpAbout", "About", "About this application")
-    toolBar->AddSeparator();
-    TOOL(exit, "FileExit", "Exit", "Exit this application")
+    TOOL("prefs.png", "EditPreferences", "Setup", 
+         "Edit application preferences")
+    TOOL("help.png", "HelpAbout", "About", 
+         "About this application")
 
     SetToolBar(toolBar);
 

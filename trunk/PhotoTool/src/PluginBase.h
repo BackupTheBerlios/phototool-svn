@@ -31,7 +31,7 @@ public:
     PluginBase(const wxString& pluginName);
     ~PluginBase();
 
-    wxString& GetName();
+    wxString GetName();
 };
 
 #include <wx/dynarray.h>

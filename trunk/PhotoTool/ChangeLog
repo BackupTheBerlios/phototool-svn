@@ -1,4 +1,8 @@
 
+2005-01-26  Bryan Bulten <bryan@bulten.ca>
+
+	* Added new icons created by Nick Rusnov.
+
 2005-01-23  Bryan Bulten <bryan@bulten.ca>
 
 	* Instantiate appropriate plugin class from PluginManager.  Added

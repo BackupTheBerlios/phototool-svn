@@ -25,6 +25,7 @@
 #include "Location.h"
 #include "PhotoDropTarget.h"
 #include "PhotoEvent.h"
+#include "Config.h"
 
 extern "C++" {
     wxImageList* LookupList::m_images = NULL;
@@ -54,11 +55,23 @@ LookupList::LookupList(wxWindow *parent)
     if (!m_images) {
         m_images = new wxImageList();
 
+#if 0
         #include "./icons/location.xpm"
         #include "./icons/album.xpm"
 
         m_images->Add(wxBitmap(location));
         m_images->Add(wxBitmap(album));
+#endif
+
+        wxString iconPath = Config::GetDataPath();
+        iconPath << wxFILE_SEP_PATH << _T("icons") << wxFILE_SEP_PATH;
+        wxBitmap bitmap;
+
+        bitmap = wxImage(iconPath + _T("location.png"));
+        m_images->Add(bitmap);
+
+        bitmap = wxImage(iconPath + _T("album.png"));
+        m_images->Add(bitmap);
     }
 
     SetImageList(m_images, wxIMAGE_LIST_SMALL);
