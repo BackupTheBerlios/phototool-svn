@@ -1,3 +1,3 @@
 
-SUBDIRS = . wx
+SUBDIRS = . wx phototool
 

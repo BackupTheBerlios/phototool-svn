@@ -19,10 +19,16 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <phototool/PhotoEditPlugin.h>
+#ifndef PHOTOEDITPLUGIN_H
+#define PHOTOEDITPLUGIN_H
 
-PhotoEditPlugin::PhotoEditPlugin()
-    : PluginBase()
+#include <phototool/PluginBase.h>
+
+class PhotoEditPlugin : public PluginBase
 {
-}
+public:
+    PhotoEditPlugin();
+};
+
+#endif
 

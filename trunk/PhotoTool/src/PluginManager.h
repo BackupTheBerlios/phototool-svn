@@ -19,10 +19,23 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <phototool/PhotoEditPlugin.h>
+#ifndef PLUGINMANAGER_H
+#define PLUGINMANAGER_H
 
-PhotoEditPlugin::PhotoEditPlugin()
-    : PluginBase()
+#include <wx/dynlib.h>
+
+#include <phototool/PluginBase.h>
+
+class PluginManager
 {
-}
+public:
+    PluginManager();
+
+    bool LoadPlugins(const wxString& path);
+
+private:
+
+};
+
+#endif
 

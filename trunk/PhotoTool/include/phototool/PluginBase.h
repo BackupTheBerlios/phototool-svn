@@ -19,10 +19,22 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <phototool/PhotoEditPlugin.h>
+#ifndef PLUGINBASE_H
+#define PLUGINBASE_H
 
-PhotoEditPlugin::PhotoEditPlugin()
-    : PluginBase()
+enum {
+    PHOTOTOOL_EDIT = 1,
+    PHOTOTOOL_SORT = 2,
+    PHOTOTOOL_VIEW = 4
+};
+
+typedef int (* PluginTypeFunc)();
+
+class PluginBase
 {
-}
+public:
+    PluginBase();
+};
+
+#endif
 

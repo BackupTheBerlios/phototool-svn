@@ -24,8 +24,7 @@
 #include "Library.h"
 #include "Notify.h"
 #include "Config.h"
-
-#include "config.h"
+#include "PluginManager.h"
 
 #include <wx/xrc/xmlres.h>
 #include <wx/splash.h>
@@ -66,6 +65,13 @@ bool PhotoTool::OnInit()
 
     // Initialize the default photo library
     Library::Get()->Load(Config::GetBasePath());
+
+    // TODO TODO
+
+    PluginManager pm;
+    pm.LoadPlugins(_T("../plugins/"));
+
+    // TODO TODO
 
     // Create and show the main frame
     Frame *frame = new Frame(GetAppName());

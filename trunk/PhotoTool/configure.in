@@ -53,6 +53,7 @@ if test "x$enable_testing" = "xyes"; then
 fi
 
 dnl Doxygen documentation
+AC_MSG_CHECKING(for doxygen)
 AC_ARG_ENABLE(docs,  [  --enable-docs           Generate doxygen documentation],
               enable_docs=$enableval, enable_docs=no)
 
@@ -85,6 +86,7 @@ AC_OUTPUT([
 
     include/Makefile
     include/wx/Makefile
+    include/phototool/Makefile
 
     src/Makefile
 
