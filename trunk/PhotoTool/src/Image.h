@@ -24,19 +24,60 @@
 
 #include <wx/wx.h>
 
+class Pixel
+{
+public:
+    Pixel(unsigned char *rgb) : m_rgb(rgb) { }
+    Pixel() : m_rgb(NULL) { }
+
+    // Red/Green/Blue
+    void GetRGB(float &r, float &g, float &b)
+    {
+        r = (float)m_rgb[0] / 255.0;
+        g = (float)m_rgb[1] / 255.0;
+        b = (float)m_rgb[2] / 255.0;
+    }
+
+    void SetRGB(float r, float g, float b) 
+    { 
+        m_rgb[0] = (unsigned char)(r * 255.0); 
+        m_rgb[1] = (unsigned char)(g * 255.0); 
+        m_rgb[2] = (unsigned char)(b * 255.0);
+    }
+
+    // Hue/Saturation/Lightness
+    void GetHSL(float &h, float &s, float &l);
+    void SetHSL(float h, float s, float l);
+
+    // Pixel validity
+    bool Ok() { return m_rgb != NULL; }
+
+private:
+    unsigned char* m_rgb;
+};
+
 class Image : public wxImage 
 {
 public:
+    Image() : wxImage() { }
     Image(const wxImage& image) : wxImage(image) { }
 
     Image ScaleAspect(int width, int height) const;
-
     Image& RescaleAspect(int width, int height) 
     {
         return *this = ScaleAspect(width, height);
     }
 
     wxPoint Centered(int width, int height);
+
+    // Pixel management
+    Pixel GetPixel(int x, int y);
+    Pixel GetPixel(int n);
+
+    // Image manipulation
+    void ConvertToGrayScale();
+    void AdjustHSL(int h, int s, int l);
+    void AdjustRGB(int r, int g, int b);
 };
 
 #endif

@@ -23,6 +23,7 @@
 #define EDITPAGE_H
 
 #include "PageBase.h"
+#include "Image.h"
 
 #include <wx/splitter.h>
 #include <wx/scrolwin.h>
@@ -40,7 +41,21 @@ class EditViewer : public wxScrolledWindow
 public:
     EditViewer(wxWindow *parent);
 
+    void OnDraw(wxDC& dc);
+    void OnSize(wxSizeEvent& evt);
+
+    void SetPhoto(const Photo& photo);
+    Image& GetWorkingImage() { return m_working; }
+
+    void RefreshDisplay();
+
 private:
+    Image m_working;
+        
+    Image m_display;
+    wxPoint m_position;
+
+    DECLARE_EVENT_TABLE()
 };
 
 class EditPage : public PageBase
@@ -48,9 +63,23 @@ class EditPage : public PageBase
 public:
     EditPage(wxNotebook *parent);
 
+    Photo GetSelectedPhoto() { return m_photo; }
+    void SetSelectedPhoto(const Photo& photo);
+
+    void OnGrayScale(wxCommandEvent&);
+
+    void OnRGB(wxScrollEvent&);
+    void OnHSL(wxScrollEvent&);
+
 private:
     EditPanel *m_edit;
     EditViewer *m_viewer;
+
+    wxSplitterWindow *m_split;
+
+    Photo m_photo;
+
+    DECLARE_EVENT_TABLE()
 };
 
 #endif

@@ -29,6 +29,8 @@ class PhotoTool : public wxApp
 public:
     virtual bool OnInit();
     virtual int OnExit();
+
+    void ShowSplash();
 };
 
 #endif

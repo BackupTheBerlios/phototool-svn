@@ -1,4 +1,11 @@
 
+2005-01-18  Bryan Bulten <bryan@bulten.ca>
+
+	* Added XRC-based photo edit panel.  Implemented black and white
+	convertor.
+
+	* Implemented photo edit viewer.  Scales image to fit in window.
+
 2005-01-16  Bryan Bulten <bryan@bulten.ca>
 
 	* Fixed bug in drag and drop that resulted from changing the photo storage

@@ -26,6 +26,7 @@
 #include "Config.h"
 
 #include <wx/xrc/xmlres.h>
+#include <wx/splash.h>
 
 IMPLEMENT_APP(PhotoTool)
 
@@ -42,10 +43,18 @@ bool PhotoTool::OnInit()
     // Initialize image handlers
     wxInitAllImageHandlers();
 
+    // Show the splash screen
+    ShowSplash();
+
     // Initialize XRC
-    wxXmlResource *res = wxXmlResource::Get();
-    res->InitAllHandlers();
-    if (!res->Load(_T("../wxd/PhotoTool_wdr.xrc"))) {
+    wxXmlResource::Set(new wxXmlResource(wxXRC_NO_RELOADING | 
+                                         wxXRC_USE_LOCALE));
+    wxXmlResource::Get()->InitAllHandlers();
+
+    // TODO: Loading XML resources results in slow start times, is there a
+    // better way to do it?
+
+    if (!wxXmlResource::Get()->Load(_T("../wxd/PhotoTool_wdr.xrc"))) {
         Notify::Error(NULL, _T("Error loading XRC resources.\nExiting."));
         return false;
     }
@@ -56,6 +65,7 @@ bool PhotoTool::OnInit()
     // Create and show the main frame
     Frame *frame = new Frame(GetAppName());
     frame->Show(true);
+    SetTopWindow(frame);
 
     return true;
 }
@@ -64,5 +74,16 @@ int PhotoTool::OnExit()
 {
     Config::Close();
     return 0;
+}
+
+void PhotoTool::ShowSplash()
+{
+    wxBitmap bmp;
+    bmp.LoadFile(_T("./images/splash.png"), wxBITMAP_TYPE_PNG);
+
+    new wxSplashScreen(bmp, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
+                       7000, NULL, -1, wxDefaultPosition, wxDefaultSize,
+                       wxNO_BORDER | wxSTAY_ON_TOP); 
+    wxSafeYield();
 }
 
