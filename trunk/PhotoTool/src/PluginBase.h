@@ -19,16 +19,23 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef PHOTOEDITPLUGIN_H
-#define PHOTOEDITPLUGIN_H
+#ifndef PLUGINBASE_H
+#define PLUGINBASE_H
 
-#include <phototool/PluginBase.h>
+#include <phototool/PhotoTool.h>
+#include <wx/dynlib.h>
 
-class PhotoEditPlugin : public PluginBase
+class PluginBase : public wxDynamicLibrary
 {
 public:
-    PhotoEditPlugin();
+    PluginBase(const wxString& pluginName);
+    ~PluginBase();
+
+    wxString& GetName();
 };
+
+#include <wx/dynarray.h>
+WX_DECLARE_OBJARRAY(PluginBase*, PluginArray);
 
 #endif
 

@@ -19,10 +19,16 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "PhotoEditPlugin.h"
+#ifndef PHOTOEDITPLUGIN_H
+#define PHOTOEDITPLUGIN_H
 
-PhotoEditPlugin::PhotoEditPlugin(const wxString& pluginName)
-    : PluginBase(pluginName)
+#include "PluginBase.h"
+
+class PhotoEditPlugin : public PluginBase
 {
-}
+public:
+    PhotoEditPlugin(const wxString& pluginName);
+};
+
+#endif
 

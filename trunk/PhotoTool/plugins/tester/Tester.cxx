@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include <phototool/PluginBase.h>
+#include <phototool/PhotoTool.h>
 
 extern "C"
 int plugin_type()

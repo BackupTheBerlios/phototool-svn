@@ -19,22 +19,20 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef PLUGINBASE_H
-#define PLUGINBASE_H
+#ifndef _PHOTOTOOL_H_
+#define _PHOTOTOOL_H_
+
+#include <wx/string.h>
 
 enum {
-    PHOTOTOOL_EDIT = 1,
-    PHOTOTOOL_SORT = 2,
-    PHOTOTOOL_VIEW = 4
+    PHOTOTOOL_EDIT      = 1,
+    PHOTOTOOL_SORT      = 2,
+    PHOTOTOOL_VIEW      = 4,
+    PHOTOTOOL_EXPORT    = 8
 };
 
 typedef int (* PluginTypeFunc)();
-
-class PluginBase
-{
-public:
-    PluginBase();
-};
+typedef wxString (* PluginNameFunc)();
 
 #endif
 

@@ -19,9 +19,18 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <phototool/PluginBase.h>
+#include "PluginBase.h"
 
-PluginBase::PluginBase()
+#include <wx/arrimpl.cpp>
+WX_DEFINE_OBJARRAY(PluginArray);
+
+PluginBase::PluginBase(const wxString& pluginName)
+    : wxDynamicLibrary(pluginName)
 {
 }
+
+PluginBase::~PluginBase()
+{
+}
+
 

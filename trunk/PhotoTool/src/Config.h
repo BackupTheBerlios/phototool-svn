@@ -75,16 +75,8 @@ public:
     static wxString GetDataPath()
     {
         wxString dataPath;
-#if defined(__WXMSW__) || defined(TESTING)
-        // Windows or testing
-        dataPath << _T("..");
-#else 
-        // Linux/UNIX
-        dataPath << PHOTOTOOL_PREFIX;
-#endif
-        dataPath << wxFILE_SEP_PATH << _T("share") << wxFILE_SEP_PATH 
-                 << _("phototool") << wxFILE_SEP_PATH;
-
+        dataPath << PHOTOTOOL_PREFIX << wxFILE_SEP_PATH << _T("share") 
+                 << wxFILE_SEP_PATH << _("phototool") << wxFILE_SEP_PATH;
         return dataPath;
     }
 };

@@ -44,13 +44,25 @@ if test "x$enable_debug" = "xyes"; then
     LDFLAGS="$LDFLAGS -g"
 fi
 
+dnl Program data paths
+AC_MSG_CHECKING(for installation prefix)
+if test "x$prefix" = "xNONE"; then
+    prefix=$ac_default_prefix
+    data_prefix=prefix
+fi
+AC_MSG_RESULT($prefix)
+
 dnl Testing
 AC_ARG_ENABLE(testing, [  --enable-testing Testing, run from build directory], 
               enable_testing=$enableval, enable_testing=no)
 if test "x$enable_testing" = "xyes"; then
     CXXFLAGS="$CXXFLAGS -DTESTING"
     CPPFLAGS="$CPPFLAGS -DTESTING"
+    data_prefix=".."
 fi
+
+AC_DEFINE_UNQUOTED(PHOTOTOOL_PREFIX, _T("$data_prefix"), 
+                   [PhotoTool installation prefix])
 
 dnl Doxygen documentation
 AC_MSG_CHECKING(for doxygen)
@@ -64,16 +76,6 @@ if test "x$enable_docs" = "xyes"; then
         AC_MSG_ERROR([Cannot build documentation, Doxygen not found.])
     fi
 fi
-
-dnl Program data paths
-AC_MSG_CHECKING(for installation prefix)
-if test "x$prefix" = "xNONE"; then
-    prefix=$ac_default_prefix
-fi
-AC_MSG_RESULT($prefix)
-
-AC_DEFINE_UNQUOTED(PHOTOTOOL_PREFIX, _T("$prefix"), 
-                   [PhotoTool installation prefix])
 
 # Global options
 CPPFLAGS="$CPPFLAGS -Wall -W"

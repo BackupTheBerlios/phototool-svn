@@ -1,4 +1,9 @@
 
+2005-01-23  Bryan Bulten <bryan@bulten.ca>
+
+	* Instantiate appropriate plugin class from PluginManager.  Added
+	PluginArray for storing a list of plugins.
+
 2005-01-20  Bryan Bulten <bryan@bulten.ca>
 
 	* Added --enable-testing for running PhotoTool from the build directory.

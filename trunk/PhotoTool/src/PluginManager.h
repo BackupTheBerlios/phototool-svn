@@ -22,19 +22,20 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include <wx/dynlib.h>
-
-#include <phototool/PluginBase.h>
+#include "PluginBase.h"
 
 class PluginManager
 {
 public:
     PluginManager();
+    ~PluginManager();
 
     bool LoadPlugins(const wxString& path);
 
 private:
+    void RegisterPlugin(PluginBase& plugin);
 
+    PluginArray m_plugins;
 };
 
 #endif

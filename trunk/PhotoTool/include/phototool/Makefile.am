@@ -1,3 +1,3 @@
 
-include_HEADERS = PhotoEditPlugin.h PluginBase.h
+include_HEADERS = PhotoTool.h
 
