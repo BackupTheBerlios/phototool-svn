@@ -33,11 +33,6 @@ PhotoTool TODO List
     - Open setup dialog on first start
     - Optional splash screen
 
-- Plugin interface
-    - Plugin directory in photo directory
-    - PluginDialog, PluginManager, PluginBase
-    - Plugin menu
-
 - Database fixes
     - Remove 'external' attribute, and use empty file name to indicate internal
       storage instead.
@@ -61,4 +56,35 @@ PhotoTool TODO List
     - Record audio description with picture
     - Import video clips
     - Camera integration
+
+Plugin Interface Notes
+----------------------
+
+- Plugin interface
+    - Plugin directory in photo directory
+    - PluginDialog, PluginManager, PluginBase
+    - Plugin menu
+
+- Base plugin interface (PluginBase):
+
+    int load_plugin(...)
+        - Returns the type of plugin, to be used for furthur initialization by
+          the PluginManager.
+        - Allocates resources.
+
+    int unload_plugin(...)
+        - Deallocates resources.
+
+- Editor plugin interface (PhotoEditPlugin):
+    - Name and description of plugin, icon.
+    - Event sent (function call) to plugin, along with image instance.
+    - Modifies image.
+    - Need a way to indicate status.  Plugin could run in thread and send
+      events?
+
+- Photo listing sorting/manipulation
+    - Takes an album, or PhotoArray, and sorts it by some criteria
+    - Sort by color/brightness/contrast
+    - Similarity
+    - Randomly
 
