@@ -1,24 +1,14 @@
 
-#include <stdio.h>
 #include <phototool/PhotoTool.h>
 
-extern "C"
-int plugin_type()
+class TesterPlugin : public PhotoEditPlugin
 {
-    return PHOTOTOOL_SORT;
-}
+public:
+    TesterPlugin() { wxPrintf(_T("TesterPlugin()\n")); }
+    ~TesterPlugin() { wxPrintf(_T("~TesterPlugin()\n")); }
 
-extern "C" 
-int plugin_load()
-{
-    printf("Loading plugin\n");
-    return 0;
-}
+    wxString GetName() { return _T("Tester Plugin"); }
+};
 
-extern "C" 
-int plugin_unload()
-{
-    printf("Unloading plugin\n");
-    return 0;
-}
+IMPLEMENT_PLUGIN(TesterPlugin)
 

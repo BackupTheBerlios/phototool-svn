@@ -24,15 +24,25 @@
 
 #include <wx/string.h>
 
-enum {
-    PHOTOTOOL_EDIT      = 1,
-    PHOTOTOOL_SORT      = 2,
-    PHOTOTOOL_VIEW      = 4,
-    PHOTOTOOL_EXPORT    = 8
+class PluginBase
+{
+public:
+    PluginBase() { }
+    virtual ~PluginBase() { }
+
+    virtual wxString GetName() = 0;
 };
 
-typedef int (* PluginTypeFunc)();
-typedef wxString (* PluginNameFunc)();
+class PhotoEditPlugin : public PluginBase
+{
+public:
+    PhotoEditPlugin() { }
+    virtual ~PhotoEditPlugin() { }
+};
+
+typedef PluginBase* (* PluginLoadFunc)();
+#define IMPLEMENT_PLUGIN(name) \
+    extern "C" PluginBase* plugin_load() { return new name; }
 
 #endif
 

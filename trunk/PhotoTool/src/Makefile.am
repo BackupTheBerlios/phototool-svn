@@ -32,9 +32,7 @@ phototool_SOURCES = \
 	   PhotoTool.cxx PhotoTool.h \
 	   Record.cxx Record.h \
 	   SetupDialog.cxx SetupDialog.h \
-	   PluginBase.cxx PluginBase.h \
 	   PluginManager.cxx PluginManager.h \
-	   PhotoEditPlugin.cxx PhotoEditPlugin.h \
 	   SlideShowDialog.cxx SlideShowDialog.h \
 	   SlideShowFrame.cxx SlideShowFrame.h \
 	   sqlite.cxx SQL.h Util.h Config.h \

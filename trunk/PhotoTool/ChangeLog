@@ -2,6 +2,9 @@
 2005-01-26  Bryan Bulten <bryan@bulten.ca>
 
 	* Added new icons created by Nick Rusnov.
+	
+	* Updated plugin interface, which now sends an instance of PluginBase to
+	the PluginManager.
 
 2005-01-23  Bryan Bulten <bryan@bulten.ca>
 

@@ -20,10 +20,13 @@
  */
 
 #include "PluginManager.h"
-#include "PhotoEditPlugin.h"
 #include "Notify.h"
 
 #include <wx/dir.h>
+#include <wx/dynload.h>
+
+#include <wx/arrimpl.cpp>
+WX_DEFINE_OBJARRAY(PluginArray);
 
 PluginManager::PluginManager()
 {
@@ -31,11 +34,10 @@ PluginManager::PluginManager()
 
 PluginManager::~PluginManager()
 {
-    // Clean-up loaded plugins
-    for(size_t i = 0; i < m_plugins.Count(); i++) {
-        m_plugins[i]->Unload();
-        delete m_plugins[i];
-        m_plugins[i] = NULL;
+    // Cleanup
+    while(m_plugins.Count() > 0) {
+        PluginBase **plugin = m_plugins.Detach(0);
+        delete *plugin;
     }
 }
 
@@ -44,6 +46,7 @@ bool PluginManager::LoadPlugins(const wxString& path)
     wxArrayString pluginNames;
     int rc = -1;
 
+    // Plugin extension is platform specific
 #if defined(__WXMSW__)
     rc = wxDir::GetAllFiles(path, &pluginNames, _T("*.dll"));
 #elif defined(__WXMAC__) || defined(__WXCOCOA__)
@@ -60,40 +63,25 @@ bool PluginManager::LoadPlugins(const wxString& path)
         return false;
     }
 
-    wxDynamicLibrary lib;
-    PluginTypeFunc plugin_type;
-    PluginBase *plugin;
-
     for(size_t i = 0; i < pluginNames.Count(); i++) {
-        if (!lib.Load(pluginNames[i])) continue;
+        // Load the plugin
+        wxPluginLibrary *lib = wxPluginManager::LoadLibrary(pluginNames[i]);
 
-        plugin_type = (PluginTypeFunc)lib.GetSymbol(_T("plugin_type"));
-        if (plugin_type == NULL) {
-            wxPrintf(_T("Could not load plugin: %s (plugin_type was")
-                     _T("not defined)\n"), pluginNames[i].c_str());
-            continue;
-        } 
+        if (lib->IsLoaded()) {
+            // Get pointer to the plugin load function
+            PluginLoadFunc plugin_load = 
+                (PluginLoadFunc)lib->GetSymbol(_T("plugin_load"));
 
-        int type = plugin_type();
-
-        if (type &  PHOTOTOOL_EDIT) {
-            plugin = new PhotoEditPlugin(pluginNames[i]);
-        } else if (type & PHOTOTOOL_SORT) {
-            // TODO
-            continue;
-        } else if (type & PHOTOTOOL_VIEW) {
-            // TODO
-            continue;
-        } else if (type & PHOTOTOOL_EXPORT) {
-            // TODO
-            continue;
-        } else {
-            wxPrintf(_T("Unkown plugin type (%d): %s\n"), 
-                     type, pluginNames[i].c_str());
-            continue;
+            if (plugin_load != NULL) {
+                // Load the plugin instance
+                PluginBase *plugin = plugin_load(); 
+                m_plugins.Add(plugin);
+            } else {
+                // plugin_load was not defined (invalid plugin?)
+                wxPrintf(_T("Could not load plugin: %s\n"), 
+                         pluginNames[i].c_str());
+            }
         }
-
-        m_plugins.Add(plugin);
     }
 
     return true;

@@ -22,7 +22,10 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "PluginBase.h"
+#include <phototool/PhotoTool.h>
+
+#include <wx/dynarray.h>
+WX_DECLARE_OBJARRAY(PluginBase*, PluginArray);
 
 class PluginManager
 {
