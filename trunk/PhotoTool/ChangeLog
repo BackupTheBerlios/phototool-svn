@@ -6,6 +6,8 @@
 
 	* Implemented photo edit viewer.  Scales image to fit in window.
 
+	* Added splash screen to make load times seem less obvious.
+
 2005-01-16  Bryan Bulten <bryan@bulten.ca>
 
 	* Fixed bug in drag and drop that resulted from changing the photo storage
