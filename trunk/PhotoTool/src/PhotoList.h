@@ -23,12 +23,11 @@
 #define PHOTOLIST_H
 
 #include "Library.h"
-#include "LibraryView.h"
 
 #include <wx/wx.h>
 #include <wx/htmllbox.h>
 
-class PhotoList : public wxHtmlListBox, public LibraryView
+class PhotoList : public wxHtmlListBox
 {
 public:
     PhotoList(wxWindow *parent);
@@ -40,9 +39,6 @@ public:
 
     void OnPopup(wxMouseEvent&);
     void OnDragDrop(wxMouseEvent& evt);
-
-    // TODO: PhotoQuery
-    //void OnNotify(const Photo&) { SetList(PhotoArray()); }
 
     Photo GetPhoto();
 

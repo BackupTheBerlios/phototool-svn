@@ -7,6 +7,11 @@ PhotoTool TODO List
 
 - Evolve ViewerPanel, ViewerFrame should use something else (?)
 
+- Create an object repository. (??? Not sure about this ???)
+    - Add a reference counter to Record.
+    - Repositories are checked first before querying database.
+    - Simplifies view refresh cycle, reducing the number of queries.
+
 - AlbumList: Change from wxListBox to a better check list box
     - Try using wxHtmlListBox with HTML check boxes for the album selection
       list.
@@ -35,8 +40,6 @@ PhotoTool TODO List
       storage instead.
     - Date field to album
 
-- Single library database, or events to notify controls about database changes.
-
 - Use working folder for editing photos, and keep original.
 
 - Popup menu on LookupList for creation and removal of albums and locations.
@@ -50,8 +53,6 @@ PhotoTool TODO List
 
 - Import status
     - Should be able to work with PhotoTool as photos are being imported.
-
-- Library sends events when things updates happen.
 
 - Wishlist:
     - Record audio description with picture

@@ -1,4 +1,10 @@
 
+2005-06-2005  Bryan Bulten <bryan@bulten.ca>
+
+	* Removed LibraryView, and send specific events to registered windows.
+	This is cleaner, since handlers can just use their event tables, and no
+	multiple inheritance is necessary.
+
 2005-05-2005  Bryan Bulten <bryan@bulten.ca>
 
 	* Added GPL license statements to source files.

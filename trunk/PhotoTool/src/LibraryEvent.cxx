@@ -19,36 +19,10 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef LOOKUPLIST_H
-#define LOOKUPLIST_H
-
-#include "PhotoEvent.h"
 #include "LibraryEvent.h"
 
-#include <wx/wx.h>
-#include <wx/listctrl.h>
-
-class LookupList : public wxListCtrl
-{
-public:
-    LookupList(wxWindow *parent);
-    ~LookupList();
-
-    void PopulateList();
-
-    void OnSize(wxSizeEvent& evt);
-
-    void OnSelect(wxListEvent& evt);
-    void OnEdit(wxListEvent& evt);
-
-    void OnPhotoDrop(PhotoDropEvent& evt);
-    void OnLibrary(LibraryEvent&);
-
-private:
-    static wxImageList *m_images;
-
-    DECLARE_EVENT_TABLE()
-};
-
-#endif
+DEFINE_EVENT_TYPE(EVT_LIBRARY_LOCATION_EVENT)
+DEFINE_EVENT_TYPE(EVT_LIBRARY_CAMERA_EVENT)
+DEFINE_EVENT_TYPE(EVT_LIBRARY_PHOTO_EVENT)
+DEFINE_EVENT_TYPE(EVT_LIBRARY_ALBUM_EVENT)
 

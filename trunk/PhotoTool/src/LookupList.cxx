@@ -40,6 +40,9 @@ BEGIN_EVENT_TABLE(LookupList, wxListCtrl)
     EVT_LIST_ITEM_ACTIVATED(wxID_ANY, LookupList::OnEdit)
 
     EVT_PHOTO_DROP(LookupList::OnPhotoDrop)
+
+    EVT_LIBRARY_ALBUM(LookupList::OnLibrary)
+    EVT_LIBRARY_LOCATION(LookupList::OnLibrary)
 END_EVENT_TABLE()
 
 LookupList::LookupList(wxWindow *parent)
@@ -58,10 +61,20 @@ LookupList::LookupList(wxWindow *parent)
     PopulateList();
 
     PhotoDropTarget::AddDropTarget(this);
+    Library::Get()->AddHandler(this);
+}
+
+LookupList::~LookupList()
+{
+    Library::Get()->RemoveHandler(this);
 }
 
 void LookupList::PopulateList()
 {
+    // Get selected item
+    int selected = GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+
+    // Clear the list
     DeleteAllItems();
 
     wxListItem li;
@@ -69,7 +82,7 @@ void LookupList::PopulateList()
     li.SetColumn(0);
     li.SetId(0);
 
-    // Albums 
+    // Albums
     li.SetImage(g_album);
     li.SetData((void*)&g_album);
 
@@ -78,6 +91,7 @@ void LookupList::PopulateList()
     for(size_t i = 0; i < albums.Count(); i++) {
         li.SetText(albums[i]);
         li.SetId(li.GetId() + 1);
+        li.SetState(0);
         InsertItem(li);
     }
 
@@ -90,8 +104,12 @@ void LookupList::PopulateList()
     for(size_t i = 0; i < locations.Count(); i++) {
         li.SetText(locations[i]);
         li.SetId(li.GetId() + 1);
+        li.SetState(0);
         InsertItem(li);
     }
+
+    // Set selected item
+    SetItemState(selected, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 }
 
 void LookupList::OnSize(wxSizeEvent& evt)
@@ -129,8 +147,7 @@ void LookupList::OnEdit(wxListEvent& evt)
     else if (type == g_location)
         dlg = new LocationDialog(this, item);
 
-    if (dlg->ShowModal() == wxID_OK)
-        PopulateList();
+    dlg->ShowModal();
 }
 
 void LookupList::OnPhotoDrop(PhotoDropEvent& evt)
@@ -165,13 +182,8 @@ void LookupList::OnPhotoDrop(PhotoDropEvent& evt)
     evt.Skip();
 }
 
-void LookupList::OnNotify(const Location&) 
+void LookupList::OnLibrary(LibraryEvent&)
 {
-    PopulateList(); 
-}
-
-void LookupList::OnNotify(const Album&) 
-{
-    PopulateList(); 
+    PopulateList();
 }
 

@@ -23,7 +23,7 @@
 #define LIBRARY_H
 
 #include "Record.h"
-#include "LibraryView.h"
+#include "LibraryEvent.h"
 
 #include <wx/sqlite.h>
 
@@ -77,8 +77,8 @@ public:
     bool Update(const Photo& photo, const Album& album);
 
     // View management
-    bool AddView(LibraryView *view);
-    bool RemoveView(LibraryView *view);
+    void AddHandler(wxWindow *handler);
+    bool RemoveHandler(wxWindow *handler);
 
 protected:
     bool Lookup(const wxString& query, wxArrayString& items);
@@ -101,17 +101,19 @@ protected:
     Album GetAlbum(int id);
 
     // View notification
-    void NotifyView(const Album& album);
-    void NotifyView(const Photo& photo);
-    void NotifyView(const Location& location);
-    void NotifyView();
+    void Notify(const Album& album);
+    void Notify(const Photo& photo);
+    void Notify(const Location& location);
+    void Notify(const Camera& camera);
+
+    void NotifyHandlers(LibraryEvent& evt);
 
 private:
     // The database
     wxSQLiteDatabase* m_db;
 
     // Library views
-    LibraryViewArray m_views;
+    wxWindowList m_handlers;
 
     wxString Pad(const wxString& str) 
     {

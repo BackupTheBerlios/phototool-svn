@@ -20,7 +20,6 @@
  */
 
 #include "Library.h"
-#include "LibraryView.h"
 #include "SQL.h"
 
 #include <wx/filefn.h>
@@ -154,7 +153,9 @@ bool Library::Update(Location& location)
             << _T(" WHERE location_id = ") << location.GetId();
     }
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(location);
+    return result;
 }
 
 bool Library::Delete(Location& location)
@@ -168,7 +169,9 @@ bool Library::Delete(Location& location)
     sql << _T("DELETE FROM location WHERE location_id = ")
         << location.GetId();
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(location);
+    return result;
 }
 
 bool Library::LookupCameras(wxArrayString& items)
@@ -229,7 +232,9 @@ bool Library::Update(Camera& camera)
             << _T(" WHERE camera_id = ") << camera.GetId();
     }
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(camera);
+    return result;
 }
 
 bool Library::Delete(Camera& camera)
@@ -243,7 +248,9 @@ bool Library::Delete(Camera& camera)
     sql << _T("DELETE FROM camera WHERE camera_id = ")
         << camera.GetId();
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(camera);
+    return result;
 }
 
 bool Library::LookupAlbums(wxArrayString& items)
@@ -295,7 +302,9 @@ bool Library::Update(Album& album)
             << _T(" WHERE album_id = ") << album.GetId();
     }
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(album);
+    return result;
 }
 
 bool Library::Delete(Album& album)
@@ -309,7 +318,9 @@ bool Library::Delete(Album& album)
     sql << _T("DELETE FROM album WHERE album_id = ")
         << album.GetId();
 
-    return query.Execute(sql);
+    bool result = query.Execute(sql);
+    if (result) Notify(album);
+    return result;
 }
 
 bool Library::QueryPhotos(const wxString& sql, PhotoArray& array)
@@ -457,8 +468,12 @@ bool Library::Update(Photo& photo)
 
     bool result = query.Execute(sql);
 
-    if (result && photo.GetId() < 0) 
-        photo.SetId(m_db->LastInsertRowId());
+    if (result) {
+        if (photo.GetId() < 0)
+            photo.SetId(m_db->LastInsertRowId());
+
+        Notify(photo);
+    }
 
     return result;
 }
@@ -487,6 +502,7 @@ bool Library::Delete(Photo& photo)
     sql << _T("DELETE FROM photo_album WHERE photo = ") << photo.GetId();
     result &= query.Execute(sql);
 
+    if (result) Notify(photo);
     return result;
 }
 
@@ -540,6 +556,7 @@ bool Library::Update(const Photo& photo, const wxArrayString& array,
         result &= query.Execute(sql);
     }
 
+    if (result) Notify(photo);
     return result;
 }
 
@@ -558,7 +575,10 @@ bool Library::Update(const Photo& photo, const Album& album)
     sql << _T("INSERT INTO photo_album VALUES (NULL, ")
         << album.GetId() << _T(", ") 
         << photo.GetId() << _T(", -1);");
-    return query.Execute(sql);
+
+    bool result = query.Execute(sql);
+    if (result) Notify(photo);
+    return result;
 }
 
 long Library::GetNextPhotoId()
@@ -574,45 +594,45 @@ long Library::GetNextPhotoId()
     return query.Fields(0, 0).AsLong();
 }
 
-bool Library::AddView(LibraryView *view)
+void Library::AddHandler(wxWindow *handler)
 {
-    m_views.Add(view);
-    return true;
+    m_handlers.Append(handler);
 }
 
-bool Library::RemoveView(LibraryView *view)
+bool Library::RemoveHandler(wxWindow *handler)
 {
-    for(size_t i = 0; i < m_views.Count(); i++) {
-        if (m_views[i] == view) {
-            m_views.RemoveAt(i);
-            return true;
-        }
+    return m_handlers.DeleteObject(handler);
+}
+
+void Library::Notify(const Album& album)
+{ 
+    LibraryEvent evt(EVT_LIBRARY_ALBUM_EVENT, album);
+    NotifyHandlers(evt); 
+}
+
+void Library::Notify(const Photo& photo)
+{ 
+    LibraryEvent evt(EVT_LIBRARY_PHOTO_EVENT, photo);
+    NotifyHandlers(evt); 
+}
+
+void Library::Notify(const Location& location)
+{ 
+    LibraryEvent evt(EVT_LIBRARY_LOCATION_EVENT, location);
+    NotifyHandlers(evt); 
+}
+
+void Library::Notify(const Camera& camera)
+{ 
+    LibraryEvent evt(EVT_LIBRARY_CAMERA_EVENT, camera);
+    NotifyHandlers(evt); 
+}
+
+void Library::NotifyHandlers(LibraryEvent& evt)
+{
+    for(wxWindowList::Node *n = m_handlers.GetFirst(); n; n = n->GetNext()) {
+        wxWindow *handler = n->GetData();
+        handler->GetEventHandler()->AddPendingEvent(evt);
     }
-
-    return false;
-}
-
-void Library::NotifyView(const Album& album)
-{
-    for(size_t i = 0; i < m_views.Count(); i++)
-        m_views[i]->OnNotify(album);
-}
-
-void Library::NotifyView(const Photo& photo)
-{
-    for(size_t i = 0; i < m_views.Count(); i++)
-        m_views[i]->OnNotify(photo);
-}
-
-void Library::NotifyView(const Location& location)
-{
-    for(size_t i = 0; i < m_views.Count(); i++)
-        m_views[i]->OnNotify(location);
-}
-
-void Library::NotifyView()
-{
-    for(size_t i = 0; i < m_views.Count(); i++)
-        m_views[i]->OnNotify();
 }
 
