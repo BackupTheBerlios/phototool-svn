@@ -29,6 +29,7 @@
 
 #include "AboutDialog.h"
 #include "ImportDialog.h"
+#include "MetadataDialog.h"
 #include "PhotoDialog.h"
 #include "SetupDialog.h"
 #include "SlideShowDialog.h"
@@ -54,6 +55,7 @@ BEGIN_EVENT_TABLE(Frame, wxFrame)
     EVT_MENU(XRCID("EditPreferences"), Frame::OnEditPreferences)
 
     EVT_MENU(XRCID("PhotoEdit"), Frame::OnPhotoEdit)
+    EVT_MENU(XRCID("PhotoMetadata"), Frame::OnPhotoMetadata)
     EVT_MENU(XRCID("PhotoDelete"), Frame::OnPhotoDelete)
     EVT_MENU(XRCID("PhotoSlideShow"), Frame::OnPhotoSlideShow)
 
@@ -187,6 +189,18 @@ void Frame::OnPhotoEdit(wxCommandEvent&)
             GetCurrentPage()->RefreshList();
     } else {
         Notify::Info(this, _T("Select an item to edit"));
+    }
+}
+
+void Frame::OnPhotoMetadata(wxCommandEvent&)
+{
+    Photo photo = GetCurrentPage()->GetSelectedPhoto();
+
+    if (photo.Ok()) {
+        MetadataDialog *dlg = new MetadataDialog(this, photo);
+        dlg->ShowModal();
+    } else {
+        Notify::Info(this, _T("Select an item to view"));
     }
 }
 

@@ -19,28 +19,32 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef PHOTODIALOG_H
-#define PHOTODIALOG_H
+#ifndef _WX_EXIF_H_
+#define _WX_EXIF_H_
 
-#include "InputDialog.h"
-#include "Record.h"
+#include <wx/wx.h>
+#include <wx/hashmap.h>
+#include <libexif/exif-data.h>
 
-class PhotoDialog : public InputDialog
+WX_DECLARE_STRING_HASH_MAP(wxString, ContentHash);
+
+class wxExif
 {
 public:
-    PhotoDialog(wxWindow *parent, const Photo& photo = Photo());
+    wxExif() : m_data(NULL) { }
+    wxExif(const wxString& file);
+    ~wxExif();
 
-    ACCESSOR(Photo, m_photo, Photo)
+    bool Ok() { return m_data != NULL; }
 
-    bool TransferDataFromWindow();
-    bool TransferDataToWindow();
-
-    void OnDateTime(wxCommandEvent&);
+    ContentHash& GetContent() { return m_content; }
 
 private:
-    Photo m_photo;
+    // No copy
+    wxExif(const wxExif&) { }
 
-    DECLARE_EVENT_TABLE()
+    ExifData *m_data;
+    ContentHash m_content;
 };
 
 #endif

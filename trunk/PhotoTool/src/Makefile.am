@@ -20,6 +20,7 @@ PhotoTool_SOURCES = \
 	   Location.cxx Location.h \
 	   LookupList.cxx LookupList.h \
 	   LookupPage.cxx LookupPage.h \
+	   MetadataDialog.cxx MetadataDialog.h \
 	   Notify.cxx Notify.h \
 	   PageBase.cxx PageBase.h \
 	   PhotoDialog.cxx PhotoDialog.h \
@@ -37,6 +38,8 @@ PhotoTool_SOURCES = \
 	   ThumbList.cxx ThumbList.h \
 	   ViewerPage.cxx ViewerPage.h \
 	   wxBoxList.cxx wxBoxList.h \
+	   wxExif.cxx wxExif.h \
+	   wxExifList.cxx wxExifList.h \
 	   ViewerPanel.cxx ViewerPanel.h
 
 CXXFLAGS=@CXXFLAGS@ -I. -I$(top_srcdir)/include 

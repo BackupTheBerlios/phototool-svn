@@ -1096,6 +1096,28 @@ or (at your option) any later version.</label>
     </object>
 </object>
 
+<object class="wxPanel" name="MetadataPanel">
+    <object class="wxBoxSizer">
+        <orient>wxVERTICAL</orient>
+        <object class="sizeritem">
+            <flag>wxALIGN_CENTER|wxALL</flag>
+            <border>5</border>
+            <object class="wxStaticBoxSizer">
+                <orient>wxVERTICAL</orient>
+                <label>Metadata (exif) Information</label>
+                <object class="sizeritem">
+                    <flag>wxALIGN_CENTER|wxALL</flag>
+                    <border>5</border>
+                    <object class="wxListCtrl" subclass="wxExifList" name="MetadataList">
+                        <size>500,400</size>
+                        <style>wxLC_REPORT|wxLC_SINGLE_SEL|wxSUNKEN_BORDER|wxLC_VRULES|wxLC_HRULES</style>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</object>
+
 <object class="wxMenuBar" name="MainMenu">
     <object class="wxMenu" name="FileMenu">
         <label>&amp;File</label>
@@ -1139,10 +1161,15 @@ or (at your option) any later version.</label>
             <label>&amp;Edit...	Ctrl-E</label>
             <help>Edit the selected photo</help>
         </object>
+        <object class="wxMenuItem" name="PhotoMetadata">
+            <label>&amp;Metadata...	Ctrl-M</label>
+            <help>View the selected photo's metadata (exif)</help>
+        </object>
         <object class="wxMenuItem" name="PhotoDelete">
             <label>&amp;Delete	Ctrl-D</label>
             <help>Delete the selected photo</help>
         </object>
+        <object class="separator"/>
         <object class="wxMenuItem" name="PhotoSlideShow">
             <label>&amp;Slide show...	Ctrl-S</label>
             <help>Start a slide show</help>
@@ -1164,10 +1191,15 @@ or (at your option) any later version.</label>
             <label>&amp;Edit...	Ctrl-E</label>
             <help>Edit the selected photo</help>
         </object>
+        <object class="wxMenuItem" name="PhotoMetadata">
+            <label>&amp;Metadata...	Ctrl-M</label>
+            <help>View the selected photo's metadata (exif)</help>
+        </object>
         <object class="wxMenuItem" name="PhotoDelete">
             <label>&amp;Delete	Ctrl-D</label>
             <help>Delete the selected photo</help>
         </object>
+        <object class="separator"/>
         <object class="wxMenuItem" name="PhotoSlideShow">
             <label>&amp;Slide show...	Ctrl-S</label>
             <help>Start a slide show</help>

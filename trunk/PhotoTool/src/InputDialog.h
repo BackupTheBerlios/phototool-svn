@@ -27,11 +27,15 @@
 class InputDialog : public wxDialog
 {
 public:
+    InputDialog(wxWindow *parent, const wxString& title);
     InputDialog(wxWindow *parent, const wxString& panel, 
                 const wxString& title);
 
     void OnOK(wxCommandEvent&);
     void OnCancel(wxCommandEvent&);
+
+protected:
+    void Init(wxWindow* child);
 
 private:
     DECLARE_EVENT_TABLE()

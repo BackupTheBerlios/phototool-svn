@@ -1,4 +1,13 @@
 
+2005-09-2005  Bryan Bulten <bryan@bulten.ca>
+
+	* Added wxExifList and MetadataDialog for viewing exif metadata.
+
+2005-08-2005  Bryan Bulten <bryan@bulten.ca>
+
+	* Added wxExif, a class for retrieving file exif information.  Loads
+	metadata into a hash, no editing support provided yet.
+
 2005-07-2005  Bryan Bulten <bryan@bulten.ca>
 
 	* Created new icons using InkScape.  Icons are in SVG format, and were

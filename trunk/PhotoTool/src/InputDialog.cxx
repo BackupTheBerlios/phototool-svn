@@ -28,20 +28,28 @@ BEGIN_EVENT_TABLE(InputDialog, wxDialog)
     EVT_BUTTON(XRCID("Cancel"), InputDialog::OnCancel)
 END_EVENT_TABLE()
 
+InputDialog::InputDialog(wxWindow *parent, const wxString& title)
+    : wxDialog(parent, wxID_ANY, title)
+{
+}
+
 InputDialog::InputDialog(wxWindow *parent, const wxString& panel, 
                          const wxString& title)
     : wxDialog(parent, wxID_ANY, title)
 {
-    wxXmlResource *res = wxXmlResource::Get();
+    Init(wxXmlResource::Get()->LoadPanel(this, panel));
+}
 
+void InputDialog::Init(wxWindow* child)
+{
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
     // Editor panel
-    wxPanel *p = res->LoadPanel(this, panel);
-    sizer->Add(p);
+    if (child)
+        sizer->Add(child);
 
     // Input panel (OK/Cancel buttons)
-    p = res->LoadPanel(this, _T("InputPanel"));
+    wxPanel *p = wxXmlResource::Get()->LoadPanel(this, _T("InputPanel"));
     sizer->Add(p, 0, wxEXPAND);
 
     SetSizer(sizer);

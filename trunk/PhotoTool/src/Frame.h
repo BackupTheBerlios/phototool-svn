@@ -43,6 +43,7 @@ public:
     void OnEditPreferences(wxCommandEvent&);
 
     void OnPhotoEdit(wxCommandEvent&);
+    void OnPhotoMetadata(wxCommandEvent&);
     void OnPhotoDelete(wxCommandEvent&);
     void OnPhotoSlideShow(wxCommandEvent&);
 

@@ -19,23 +19,21 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef PHOTODIALOG_H
-#define PHOTODIALOG_H
+#ifndef EXIFDIALOG_H
+#define EXIFDIALOG_H
 
 #include "InputDialog.h"
 #include "Record.h"
 
-class PhotoDialog : public InputDialog
+class wxExifList;
+
+class MetadataDialog : public InputDialog
 {
 public:
-    PhotoDialog(wxWindow *parent, const Photo& photo = Photo());
-
-    ACCESSOR(Photo, m_photo, Photo)
+    MetadataDialog(wxWindow *parent, const Photo& photo);
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
-
-    void OnDateTime(wxCommandEvent&);
 
 private:
     Photo m_photo;

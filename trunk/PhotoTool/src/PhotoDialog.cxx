@@ -20,10 +20,12 @@
  */
 
 #include "PhotoDialog.h"
-#include "Location.h"
-#include "Camera.h"
 #include "Album.h"
+#include "Camera.h"
 #include "DateTimeDialog.h"
+#include "Location.h"
+#include "wxExif.h"
+#include "Library.h"
 
 #include <wx/xrc/xmlres.h>
 
@@ -34,10 +36,11 @@ END_EVENT_TABLE()
 #define EDIT_LOCATIONS _T("Edit locations...")
 #define EDIT_CAMERAS _T("Edit cameras...")
 
-PhotoDialog::PhotoDialog(wxWindow *parent, Photo photo)
+PhotoDialog::PhotoDialog(wxWindow *parent, const Photo& photo)
     : InputDialog(parent, _T("PhotoPanel"), _T("Photograph")),
       m_photo(photo)
 {
+    wxExif exif(m_photo.GetFileName());
 }
 
 bool PhotoDialog::TransferDataFromWindow()
