@@ -23,6 +23,8 @@
 #define PHOTOTOOL_H
 
 #include <wx/wx.h>
+#include <wx/splash.h>
+#include <wx/snglinst.h>
 
 class PhotoTool : public wxApp
 {
@@ -31,6 +33,11 @@ public:
     virtual int OnExit();
 
     void ShowSplash();
+    void HideSplash();
+
+private:
+    wxSplashScreen *m_splash;
+    wxSingleInstanceChecker *m_instance;
 };
 
 #endif

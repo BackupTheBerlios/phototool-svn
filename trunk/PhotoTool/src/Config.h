@@ -37,6 +37,7 @@
     static void Set##name(const type& def) \
     { \
         wxConfig::Get()->Write(key, def); \
+        wxConfig::Get()->Flush(true); \
     }
 
 class Config
@@ -66,6 +67,9 @@ public:
 
     // Slide show defaults
     CONFIG(TransitionTime, _T("TransitionTime"), int, 10)
+
+    // Default path for browsing for files and directories
+    CONFIG(DefaultPath, _T("DefaultPath"), wxString, _T(""))
 
     static wxString GetDatabasePath() 
     {

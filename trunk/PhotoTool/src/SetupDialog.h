@@ -35,6 +35,8 @@ public:
     void OnBasePath(wxCommandEvent&);
 
 private:
+    wxTextCtrl *m_basePath;
+
     DECLARE_EVENT_TABLE()
 };
 

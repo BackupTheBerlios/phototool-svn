@@ -46,7 +46,8 @@ void Pixel::GetHSL(float &h, float &s, float &l)
     if (del == 0.0) {
         // Colour is gray
         h = s = 0;
-    } else {
+    } 
+    else {
         // Set saturation
         if (l < 0.5) s = del / (max + min);
         else         s = del / (2 - max - min);
@@ -84,7 +85,8 @@ void Pixel::SetHSL(float h, float s, float l)
     if (s == 0) {
         // Gray scale
         r = g = b = l;
-    } else {
+    } 
+    else {
         float v1, v2;
 
         if (l < 0.5) v2 = l * (1.0 + s);
@@ -107,7 +109,8 @@ Image Image::ScaleAspect(int width, int height) const
 
     if (aspect < 1.0) {
         height = (int)((double)width * aspect);
-    } else {
+    } 
+    else {
         width = (int)((double)height * aspect);
     }
 

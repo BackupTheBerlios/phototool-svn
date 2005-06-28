@@ -86,16 +86,13 @@ bool AlbumDialog::TransferDataToWindow()
 
 IMPLEMENT_DYNAMIC_CLASS(AlbumList, wxListBox)
 
-BEGIN_EVENT_TABLE(AlbumList, wxListBox)
-    EVT_WINDOW_CREATE(AlbumList::OnCreate)
-END_EVENT_TABLE()
-
 AlbumList::AlbumList(wxWindow *parent, wxWindowID id, 
                            const wxPoint &pos, const wxSize &size, 
                            long style, const wxValidator& validator,
                            const wxString &name)
     : wxListBox(parent, id, pos, size, wxArrayString(), style, validator, name)
 {
+    PopulateList();
 }
 
 void AlbumList::PopulateList()
@@ -106,11 +103,6 @@ void AlbumList::PopulateList()
     Clear();
     for(size_t i = 0; i < items.Count(); i++)
         Append(items[i]);
-}
-
-void AlbumList::OnCreate(wxWindowCreateEvent&)
-{
-    PopulateList();
 }
 
 void AlbumList::GetSelections(wxArrayString &selection)

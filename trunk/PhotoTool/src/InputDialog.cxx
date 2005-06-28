@@ -21,11 +21,9 @@
 
 #include "InputDialog.h"
 
-#include <wx/xrc/xmlres.h>
-
 BEGIN_EVENT_TABLE(InputDialog, wxDialog)
-    EVT_BUTTON(XRCID("OK"), InputDialog::OnOK)
-    EVT_BUTTON(XRCID("Cancel"), InputDialog::OnCancel)
+    EVT_BUTTON(wxID_OK, InputDialog::OnOK)
+    EVT_BUTTON(wxID_CANCEL, InputDialog::OnCancel)
 END_EVENT_TABLE()
 
 InputDialog::InputDialog(wxWindow *parent, const wxString& title)
@@ -33,27 +31,23 @@ InputDialog::InputDialog(wxWindow *parent, const wxString& title)
 {
 }
 
-InputDialog::InputDialog(wxWindow *parent, const wxString& panel, 
-                         const wxString& title)
-    : wxDialog(parent, wxID_ANY, title)
+void InputDialog::SetSizer(wxBoxSizer* sizer)
 {
-    Init(wxXmlResource::Get()->LoadPanel(this, panel));
-}
+    // Create OK and Cancel buttons
+    wxPanel *btnPanel = new wxPanel(this);
+    wxButton *ok = new wxButton(btnPanel, wxID_OK, _T("OK"));
+    wxButton *cancel = new wxButton(btnPanel, wxID_CANCEL, _T("Cancel"));
 
-void InputDialog::Init(wxWindow* child)
-{
-    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    // Add buttons to panel
+    wxBoxSizer *btnSizer = new wxBoxSizer(wxHORIZONTAL);
+    btnSizer->Add(ok, 0, wxALL, 5);
+    btnSizer->Add(cancel, 0, wxALL, 5);
+    btnPanel->SetSizer(btnSizer);
+    btnPanel->Fit();
 
-    // Editor panel
-    if (child)
-        sizer->Add(child);
-
-    // Input panel (OK/Cancel buttons)
-    wxPanel *p = wxXmlResource::Get()->LoadPanel(this, _T("InputPanel"));
-    sizer->Add(p, 0, wxEXPAND);
-
-    SetSizer(sizer);
-    Fit();
+    // Add to main window
+    sizer->Add(btnPanel, 0, wxALIGN_RIGHT);
+    wxDialog::SetSizer(sizer);
 }
 
 void InputDialog::OnOK(wxCommandEvent&)

@@ -64,7 +64,6 @@ public:
 
     void PopulateLookup();
 
-    void OnCreate(wxWindowCreateEvent&);
     void OnSelect(wxCommandEvent&);
 
 private:

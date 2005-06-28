@@ -49,6 +49,9 @@ public:
     void GetHSL(float &h, float &s, float &l);
     void SetHSL(float h, float s, float l);
 
+    // Pixel data
+    void SetData(unsigned char *rgb) { m_rgb = rgb; }
+
     // Pixel validity
     bool Ok() { return m_rgb != NULL; }
 

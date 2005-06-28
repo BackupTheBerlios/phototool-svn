@@ -55,7 +55,8 @@ wxString Photo::GetFileName() const
 {
     if (m_file.Length() > 0 || GetId() < 0) {
         return m_file;
-    } else {
+    } 
+    else {
         // TODO: Support other formats (format field in database)
         return GetBaseName() << _T(".jpg");
     }
@@ -68,7 +69,8 @@ wxString Photo::GetThumbFileName() const
     if (m_file.Length() > 0 || GetId() < 0) {
         // TODO: Support thumbnails for external files
         return _T("");
-    } else {
+    } 
+    else {
         thumbFile << GetBaseName() << _T(".thumb.jpg");
     }
 

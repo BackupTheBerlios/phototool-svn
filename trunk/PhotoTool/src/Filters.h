@@ -19,24 +19,40 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef DATETIMEDIALOG_H
-#define DATETIMEDIALOG_H
+#ifndef ALTERATIONS_H
+#define ALTERATIONS_H
 
-#include "InputDialog.h"
-#include "Util.h"
+#include "Record.h"
+#include "Image.h"
 
-class DateTimeDialog : public InputDialog
+class Filter
 {
 public:
-    DateTimeDialog(wxWindow *parent, wxDateTime& dateTime);
+    Filter(const wxString &name, const wxString &value) 
+        : m_name(name), m_value(value) { }
 
-    bool TransferDataToWindow();
-    bool TransferDataFromWindow();
-
-    ACCESSOR(DateTime, m_dateTime, wxDateTime)
+    ACCESSOR(Name, m_name, wxString)
+    ACCESSOR(Value, m_value, wxString)
 
 private:
-    wxDateTime m_dateTime;
+    wxString m_name, m_value;
+};
+
+#include <wx/dynarray.h>
+WX_DECLARE_OBJARRAY(Filter, FiltersBase);
+
+class Filters : public FiltersBase
+{
+public:
+    Filters() : FiltersBase() { }
+
+    ACCESSOR(Photo, m_photo, Photo)
+
+    void Apply(Image &image);
+    bool Undo();
+
+private:
+    Photo m_photo;
 };
 
 #endif

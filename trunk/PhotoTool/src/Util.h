@@ -27,9 +27,6 @@
     type Get##name() const { return var; } \
     void Set##name(const type& val) { var = val; }
 
-// Quick access to XRC controls
-#define CTRL(name, type) XRCCTRL(*this, name, type)
-
 // Format for importing and exporting dates
 #define DATE_FORMAT _T("%B %d, %Y %T")
 
@@ -43,12 +40,6 @@
 
 #define THUMB_WIDTH 133
 #define THUMB_HEIGHT 100
-
-#define POPUP_MENU(menuBar, name) { \
-        wxMenuBar *bar = wxXmlResource::Get()->LoadMenuBar(_T(menuBar)); \
-        wxMenu *menu = bar->GetMenu(bar->FindMenu(_T(name))); \
-        PopupMenu(menu); \
-    }
 
 #endif
 

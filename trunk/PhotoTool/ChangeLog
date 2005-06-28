@@ -1,4 +1,29 @@
 
+2005-05-05  Bryan Bulten <bryan@bulten.ca>
+
+	* Use sizer instead of splitter in edit page.
+
+	* Renamed alterations to filters.  Changed filters from a wxHashMap to a
+	wxArray, which is treated as a stack of operations.
+
+2005-05-04  Bryan Bulten <bryan@bulten.ca>
+
+	* Write configuration after each change.
+
+	* Added default path configuration, for browsing of files or directories.
+
+	* Added single instance checker, so that PhotoTool can only run once.
+
+	* Began alterations table, for keeping track of arbitrary alterations to
+	photos, similar to the way that Picaso does it.
+
+2005-05-03  Bryan Bulten <bryan@bulten.ca>
+
+	* Added worker thread class.  Loads resources in seperate thread, while
+	updating splash screen.
+
+	* Tested against wxWidgets 2.6.0.
+
 2005-01-26  Bryan Bulten <bryan@bulten.ca>
 
 	* Added new icons created by Nick Rusnov.

@@ -49,6 +49,10 @@ public:
     bool TransferDataToWindow();
 
 private:
+    wxComboBox *m_manufacturer;
+    wxTextCtrl *m_model, *m_megapixels, *m_zoom;
+    wxCheckBox *m_default;
+
     Camera m_camera;
 };
 
@@ -64,7 +68,6 @@ public:
 
     void PopulateLookup();
 
-    void OnCreate(wxWindowCreateEvent&);
     void OnSelect(wxCommandEvent&);
 
 private:

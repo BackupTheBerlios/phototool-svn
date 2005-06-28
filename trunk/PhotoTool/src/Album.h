@@ -67,11 +67,8 @@ public:
     void GetSelections(wxArrayString &selection);
     void SetSelections(const wxArrayString &selection);
 
-    void OnCreate(wxWindowCreateEvent&);
-
 private:
     DECLARE_DYNAMIC_CLASS(AlbumList)
-    DECLARE_EVENT_TABLE()
 };
 
 #endif

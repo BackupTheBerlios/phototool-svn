@@ -20,7 +20,6 @@ public:
 
     void PopulateList();
 
-    void OnCreate(wxWindowCreateEvent&);
     void OnSize(wxSizeEvent& evt);
 
 private:

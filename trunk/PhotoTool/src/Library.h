@@ -23,6 +23,7 @@
 #define LIBRARY_H
 
 #include "Record.h"
+#include "Filters.h"
 #include "LibraryEvent.h"
 
 #include <wx/sqlite.h>
@@ -52,6 +53,11 @@ public:
     Album GetAlbum(const wxString& name);
     bool Update(Album& album);
     bool Delete(Album& album);
+
+    // Alteration management
+    Filters GetFilters(const Photo& photo);
+    bool Update(Filters& filters);
+    bool Delete(Filters& filters);
 
     // Photo management
     Photo GetPhoto(const wxString& fileName);

@@ -40,9 +40,9 @@ protected:
     virtual bool DoRemove(const wxString& item) = 0;
 
 private:
-    DECLARE_EVENT_TABLE()
-
     wxListBox *m_list;
+
+    DECLARE_EVENT_TABLE()
 };
 
 #endif

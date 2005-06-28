@@ -5,7 +5,6 @@ IMPLEMENT_DYNAMIC_CLASS(wxExifList, wxListCtrl)
 
 BEGIN_EVENT_TABLE(wxExifList, wxListCtrl)
     EVT_SIZE(wxExifList::OnSize)
-    EVT_WINDOW_CREATE(wxExifList::OnCreate)
 END_EVENT_TABLE()
 
 wxExifList::wxExifList(wxWindow *parent, wxWindowID id, 
@@ -41,10 +40,6 @@ void wxExifList::PopulateList()
 
     // Force columns to be resized
     SetSize(GetSize());
-}
-
-void wxExifList::OnCreate(wxWindowCreateEvent&)
-{
 }
 
 void wxExifList::OnSize(wxSizeEvent& evt)

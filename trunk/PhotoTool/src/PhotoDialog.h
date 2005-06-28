@@ -23,7 +23,12 @@
 #define PHOTODIALOG_H
 
 #include "InputDialog.h"
-#include "Record.h"
+#include "DateTime.h"
+#include "Library.h"
+
+class LocationLookup;
+class CameraLookup;
+class AlbumList;
 
 class PhotoDialog : public InputDialog
 {
@@ -35,12 +40,17 @@ public:
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
 
-    void OnDateTime(wxCommandEvent&);
-
 private:
     Photo m_photo;
 
-    DECLARE_EVENT_TABLE()
+    LocationLookup *m_location;
+    DateTimeCtrl *m_dateTime;
+    CameraLookup *m_camera;
+
+    wxTextCtrl *m_name, *m_description;
+
+    wxStaticBitmap *m_thumbnail;
+    AlbumList *m_albums;
 };
 
 #endif

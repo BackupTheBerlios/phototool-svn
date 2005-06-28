@@ -23,12 +23,13 @@
 #define EDITPAGE_H
 
 #include "PageBase.h"
+#include "Filters.h"
 #include "Image.h"
 
 #include <wx/splitter.h>
 #include <wx/scrolwin.h>
 
-class EditPanel : public wxScrolledWindow
+class EditPanel : public wxPanel
 {
 public:
     EditPanel(wxWindow *parent);
@@ -45,14 +46,16 @@ public:
     void OnSize(wxSizeEvent& evt);
 
     void SetPhoto(const Photo& photo);
-    Image& GetWorkingImage() { return m_working; }
+    Filters& GetFilters() { return m_filters; }
 
     void RefreshDisplay();
 
 private:
-    Image m_working;
-        
-    Image m_display;
+    Image m_original,   // Original, untouched image
+          m_working,    // Working image
+          m_display;    // Working image with filters applied
+
+    Filters m_filters;
     wxPoint m_position;
 
     DECLARE_EVENT_TABLE()
@@ -71,11 +74,11 @@ public:
     void OnRGB(wxScrollEvent&);
     void OnHSL(wxScrollEvent&);
 
+    void OnUndoLastFilter(wxCommandEvent&);
+
 private:
     EditPanel *m_edit;
     EditViewer *m_viewer;
-
-    wxSplitterWindow *m_split;
 
     Photo m_photo;
 

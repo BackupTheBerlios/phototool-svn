@@ -22,42 +22,88 @@
 #include "PhotoDialog.h"
 #include "Album.h"
 #include "Camera.h"
-#include "DateTimeDialog.h"
-#include "Location.h"
-#include "wxExif.h"
+#include "DateTime.h"
 #include "Library.h"
-
-#include <wx/xrc/xmlres.h>
-
-BEGIN_EVENT_TABLE(PhotoDialog, InputDialog)
-    EVT_BUTTON(XRCID("DateTimeButton"), PhotoDialog::OnDateTime)
-END_EVENT_TABLE()
-
-#define EDIT_LOCATIONS _T("Edit locations...")
-#define EDIT_CAMERAS _T("Edit cameras...")
+#include "Location.h"
 
 PhotoDialog::PhotoDialog(wxWindow *parent, const Photo& photo)
-    : InputDialog(parent, _T("PhotoPanel"), _T("Photograph")),
+    : InputDialog(parent, _T("Photograph")),
       m_photo(photo)
 {
-    wxExif exif(m_photo.GetFileName());
+    // Create controls
+    m_location = new LocationLookup(this, -1, wxDefaultPosition, 
+                                    wxSize(200, -1));
+
+    m_dateTime = new DateTimeCtrl(this);
+    m_camera = new CameraLookup(this, -1, wxDefaultPosition, 
+                                wxSize(200, -1));
+    m_name = new wxTextCtrl(this, -1);
+    m_description = new wxTextCtrl(this, -1, wxEmptyString, 
+                                   wxDefaultPosition, wxSize(300, 160), 
+                                   wxTE_MULTILINE); 
+
+    m_thumbnail = new wxStaticBitmap(this, -1, wxNullBitmap, 
+                                     wxDefaultPosition, wxSize(133, 100));
+    m_albums = new AlbumList(this, -1, wxDefaultPosition, 
+                             wxSize(200, 110));
+
+    // Photo information
+    wxFlexGridSizer *fsizer = new wxFlexGridSizer(2, 10, 10);
+    fsizer->AddGrowableCol(1);
+    fsizer->Add(new wxStaticText(this, -1, _T("Location:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_location);
+    fsizer->Add(new wxStaticText(this, -1, _T("Date/Time:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_dateTime);
+    fsizer->Add(new wxStaticText(this, -1, _T("Camera:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_camera);
+    fsizer->Add(new wxStaticText(this, -1, _T("Name:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_name, 0, wxEXPAND);
+    fsizer->Add(new wxStaticText(this, -1, _T("Description:")));
+    fsizer->Add(m_description);
+
+    wxStaticBox *left_sbox = new wxStaticBox(this, -1, _T("Photo Information"));
+    wxStaticBoxSizer *left_ssizer = new wxStaticBoxSizer(left_sbox, wxVERTICAL);
+    left_ssizer->Add(fsizer, 0, wxEXPAND|wxALL, 5);
+    
+    // Album selection
+    wxStaticBox *album_sbox = new wxStaticBox(this, -1, _T("Albums"));
+    wxStaticBoxSizer *album_ssizer = new wxStaticBoxSizer(album_sbox, wxVERTICAL);
+    album_ssizer->Add(m_albums, 1, wxEXPAND|wxALL, 5);
+
+    // Albums and thumbnail preview
+    wxBoxSizer *right_sizer = new wxBoxSizer(wxVERTICAL);
+    right_sizer->Add(m_thumbnail, 0, wxALL|wxALIGN_CENTER, 10);
+    right_sizer->Add(album_ssizer, 1, wxEXPAND);
+
+    // Group everything
+    wxBoxSizer *mainSizer = new wxBoxSizer(wxHORIZONTAL);
+    mainSizer->Add(left_ssizer, 0, wxEXPAND|wxALL, 5);
+    mainSizer->Add(right_sizer, 0, wxEXPAND|wxALL, 5);
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(mainSizer);
+    SetSizer(sizer);
+    Fit();
 }
 
 bool PhotoDialog::TransferDataFromWindow()
 {
     bool result = true;
 
-    wxString location = CTRL("Location", wxChoice)->GetStringSelection();
+    wxString location = m_location->GetStringSelection();
     m_photo.SetLocation(Library::Get()->GetLocation(location));
 
-    wxString camera = CTRL("Camera", wxChoice)->GetStringSelection();
+    wxString camera = m_camera->GetStringSelection();
     m_photo.SetCamera(Library::Get()->GetCamera(camera));
 
-    m_photo.SetName(CTRL("Name", wxTextCtrl)->GetValue());
-    m_photo.SetDescription(CTRL("Description", wxTextCtrl)->GetValue());
+    m_photo.SetName(m_name->GetValue());
+    m_photo.SetDescription(m_description->GetValue());
 
-    wxDateTime taken;
-    taken.ParseFormat(CTRL("DateTime", wxTextCtrl)->GetValue(), DATE_FORMAT);
+    wxDateTime taken = m_dateTime->GetValue();
 
     if (taken != m_photo.GetTaken() && m_photo.IsExternal()) {
         wxString oldThumbName = m_photo.GetThumbFileName();
@@ -70,7 +116,8 @@ bool PhotoDialog::TransferDataFromWindow()
         // Move file to new location
         wxRenameFile(oldThumbName, thumbName);
         wxRenameFile(oldFileName, fileName);
-    } else {
+    } 
+    else {
         m_photo.SetTaken(taken);
     }
 
@@ -78,7 +125,7 @@ bool PhotoDialog::TransferDataFromWindow()
 
     // Photo albums
     wxArrayString albums;
-    CTRL("Albums", AlbumList)->GetSelections(albums);
+    m_albums->GetSelections(albums);
     result &= Library::Get()->Update(m_photo, albums);
 
     return result;
@@ -86,40 +133,27 @@ bool PhotoDialog::TransferDataFromWindow()
 
 bool PhotoDialog::TransferDataToWindow()
 {
-    wxString date = m_photo.GetTaken().Format(DATE_FORMAT);
-    CTRL("DateTime", wxTextCtrl)->SetValue(date);
+    m_dateTime->SetValue(m_photo.GetTaken());
 
-    CTRL("Name", wxTextCtrl)->SetValue(m_photo.GetName());
-    CTRL("Description", wxTextCtrl)->SetValue(m_photo.GetDescription());
+    m_name->SetValue(m_photo.GetName());
+    m_description->SetValue(m_photo.GetDescription());
 
     // Thumbnail image
-    CTRL("Thumbnail", wxStaticBitmap)->SetBitmap(m_photo.GetBitmap());
+    m_thumbnail->SetBitmap(m_photo.GetBitmap());
 
     // Set camera
     wxString camera = m_photo.GetCamera().GetName();
-    CTRL("Camera", wxChoice)->SetStringSelection(camera);
+    m_camera->SetStringSelection(camera);
 
     // Set location
     wxString location = m_photo.GetLocation().GetName();
-    CTRL("Location", wxChoice)->SetStringSelection(location);
+    m_location->SetStringSelection(location);
 
     // Set selected albums
     wxArrayString selected;
     Library::Get()->GetAlbums(m_photo, selected);
-    CTRL("Albums", AlbumList)->SetSelections(selected);
+    m_albums->SetSelections(selected);
 
     return true;
-}
-
-void PhotoDialog::OnDateTime(wxCommandEvent&)
-{
-    wxDateTime taken;
-    taken.ParseFormat(CTRL("DateTime", wxTextCtrl)->GetValue(), DATE_FORMAT);
-
-    DateTimeDialog *dlg = new DateTimeDialog(this, taken);
-    if (dlg->ShowModal() == wxID_OK) {
-        wxString date = dlg->GetDateTime().Format(DATE_FORMAT);
-        CTRL("DateTime", wxTextCtrl)->SetValue(date);
-    }
 }
 

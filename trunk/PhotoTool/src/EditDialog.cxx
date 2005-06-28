@@ -22,30 +22,50 @@
 #include "EditDialog.h"
 #include "Util.h"
 
-#include <wx/xrc/xmlres.h>
-
 EditDialog::EditDialog(wxWindow *parent, const wxString& title)
-    : InputDialog(parent, _T("EditPanel"), title)
+    : InputDialog(parent, title)
 {
+    m_name = new wxTextCtrl(this, -1, wxEmptyString, 
+                            wxDefaultPosition, wxSize(80, -1));
+    m_description = new wxTextCtrl(this, -1, wxEmptyString, 
+                                   wxDefaultPosition, wxSize(300, 150),
+                                   wxTE_MULTILINE);
+
+    wxFlexGridSizer *fsizer = new wxFlexGridSizer(2, 10, 10);
+    fsizer->AddGrowableCol(1);
+    fsizer->Add(new wxStaticText(this, -1, _T("Name:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_name, 0, wxEXPAND);
+    fsizer->Add(new wxStaticText(this, -1, _T("Description:")));
+    fsizer->Add(m_description);
+
+    wxStaticBox *sbox = new wxStaticBox(this, -1, GetTitle());
+    wxStaticBoxSizer *ssizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+    ssizer->Add(fsizer, 0, wxEXPAND|wxALL, 5);
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(ssizer, 0, wxEXPAND|wxALL, 5);
+    SetSizer(sizer);
+    Fit();
 }
 
 wxString EditDialog::GetName()
 {
-    return CTRL("EditName", wxTextCtrl)->GetValue();
+    return m_name->GetValue();
 }
 
 void EditDialog::SetName(const wxString& name)
 {
-    return CTRL("EditName", wxTextCtrl)->SetValue(name);
+    m_name->SetValue(name);
 }
 
 wxString EditDialog::GetDescription()
 {
-    return CTRL("EditDescription", wxTextCtrl)->GetValue();
+    return m_description->GetValue();
 }
 
 void EditDialog::SetDescription(const wxString& description)
 {
-    CTRL("EditDescription", wxTextCtrl)->SetValue(description);
+    m_description->SetValue(description);
 }
 

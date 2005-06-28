@@ -19,48 +19,29 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef FRAME_H
-#define FRAME_H
+#include "WorkerThread.h"
 
 #include <wx/wx.h>
-#include <wx/notebook.h>
 
-class ViewerPanel;
-class PageBase;
-
-class Frame : public wxFrame
+void *WorkerThread::Entry()
 {
-public:
-    Frame(const wxString& title);
+    m_result = m_func();
+    return NULL;
+}
 
-    void OnFileOpen(wxCommandEvent&);
-    void OnFileImport(wxCommandEvent&);
-    void OnFileExit(wxCommandEvent&);
 
-    void OnEditCameras(wxCommandEvent&);
-    void OnEditLocations(wxCommandEvent&);
-    void OnEditAlbums(wxCommandEvent&);
-    void OnEditPreferences(wxCommandEvent&);
+bool WorkerThread::DoWork(WorkerFunction func, bool yield, int priority)
+{
+    // Create and run thread
+    WorkerThread * wt = new WorkerThread(func);
+    wt->Create(); 
+    wt->SetPriority(priority);
+    wt->Run();
 
-    void OnPhotoEdit(wxCommandEvent&);
-    void OnPhotoMetadata(wxCommandEvent&);
-    void OnPhotoDelete(wxCommandEvent&);
-    void OnPhotoSlideShow(wxCommandEvent&);
+    // Process GUI events
+    while(yield && wt->IsRunning())
+        wxYield();
 
-    void OnHelpAbout(wxCommandEvent&);
-
-    void OnPageChanged(wxNotebookEvent& evt);
-
-private:
-    wxNotebook *m_book;
-
-    PageBase* GetCurrentPage();
-
-    void InitMenu();
-    void InitToolBar();
-
-    DECLARE_EVENT_TABLE()
-};
-
-#endif
+    return wt->GetResult();
+}
 

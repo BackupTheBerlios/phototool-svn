@@ -185,7 +185,8 @@ void LookupList::OnPhotoDrop(PhotoDropEvent& evt)
             Album album = Library::Get()->GetAlbum(item);
             if (album.Ok() && Library::Get()->Update(photo, album))
                 return;
-        } else if (type == g_location) {
+        } 
+        else if (type == g_location) {
             // Set the photo's location
             Location location = Library::Get()->GetLocation(item);
 

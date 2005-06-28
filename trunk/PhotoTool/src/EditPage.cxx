@@ -20,19 +20,17 @@
  */
 
 #include "EditPage.h"
-
-#include <wx/xrc/xmlres.h>
+#include "Library.h"
 
 EditPanel::EditPanel(wxWindow *parent)
-    : wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, 
-                       wxVSCROLL | wxSUNKEN_BORDER)
+    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+              wxSUNKEN_BORDER)
 {
+    // TODO
+    wxPanel *p = new wxPanel(this);
+
     wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-
-    wxPanel *p = wxXmlResource::Get()->LoadPanel(this, _T("AdjustPanel"));
     sizer->Add(p);
-
-    SetScrollbars(1, 1, 1, 1);
     SetSizer(sizer);
     FitInside();
 }
@@ -49,14 +47,21 @@ EditViewer::EditViewer(wxWindow *parent)
 
 void EditViewer::RefreshDisplay()
 {
-    if (m_working.Ok()) {
+    if (m_original.Ok()) {
         int width, height;
         GetClientSize(&width, &height);
 
-        // Rescale working image
-        m_display = m_working.ScaleAspect(width, height);
-        // Center on window
-        m_position = m_display.Centered(width, height);
+        if (m_working.GetWidth() != width || m_working.GetHeight() != height) {
+            // Rescale working image
+            m_working = m_original.ScaleAspect(width, height);
+
+            // Center on window
+            m_position = m_working.Centered(width, height);
+        }
+
+        // Apply image filters to display image
+        m_display = m_working;
+        m_filters.Apply(m_display);
 
         Refresh();
     }
@@ -64,7 +69,9 @@ void EditViewer::RefreshDisplay()
 
 void EditViewer::SetPhoto(const Photo& photo)
 {
-    m_working = Image(photo.GetFileName());
+    m_filters = Library::Get()->GetFilters(photo);
+    m_original = Image(photo.GetFileName());
+
     RefreshDisplay();
 }
 
@@ -87,6 +94,7 @@ void EditViewer::OnSize(wxSizeEvent& evt)
 }
 
 BEGIN_EVENT_TABLE(EditPage, PageBase)
+#if 0
     EVT_BUTTON(XRCID("GrayScale"), EditPage::OnGrayScale)
     //EVT_BUTTON(XRCID("Serpia"), EditPage::OnSerpia)
     //EVT_BUTTON(XRCID("EdgeDetect"), EditPage::OnEdgeDetect)
@@ -101,23 +109,20 @@ BEGIN_EVENT_TABLE(EditPage, PageBase)
     EVT_COMMAND_SCROLL(XRCID("Red"), EditPage::OnRGB)
     EVT_COMMAND_SCROLL(XRCID("Blue"), EditPage::OnRGB)
     EVT_COMMAND_SCROLL(XRCID("Green"), EditPage::OnRGB)
+
+    EVT_BUTTON(XRCID("UndoLastFilter"), EditPage::OnUndoLastFilter)
+#endif
 END_EVENT_TABLE()
 
 EditPage::EditPage(wxNotebook *parent)
     : PageBase(parent)
 {
-    m_split = new wxSplitterWindow(this, wxID_ANY,  wxDefaultPosition, 
-                                   wxSize(300, 300), 
-                                   wxSP_3DSASH | wxSP_LIVE_UPDATE);
+    m_edit = new EditPanel(this);
+    m_viewer = new EditViewer(this);
 
-    m_edit = new EditPanel(m_split);
-    m_viewer = new EditViewer(m_split);
-
-    m_split->SplitVertically(m_edit, m_viewer, 
-                             m_edit->GetBestSize().GetWidth() + 5);
-
-    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(m_split, 1, wxEXPAND);
+    wxBoxSizer *sizer = new wxBoxSizer(wxHORIZONTAL);
+    sizer->Add(m_edit, 0, wxEXPAND | wxRIGHT, 5);
+    sizer->Add(m_viewer, 1, wxEXPAND);
     SetSizer(sizer);
     Fit();
 }
@@ -134,27 +139,46 @@ void EditPage::SetSelectedPhoto(const Photo& photo)
 
 void EditPage::OnGrayScale(wxCommandEvent&)
 {
-    m_viewer->GetWorkingImage().ConvertToGrayScale();
+    Filter filter(_T("GrayScale"), _T("1"));
+
+    Filters &filters = m_viewer->GetFilters();
+    filters.Add(filter);
+    Library::Get()->Update(filters);
+
     m_viewer->RefreshDisplay();
 }
 
 void EditPage::OnRGB(wxScrollEvent&)
 {
+#if 0
     int r = CTRL("Red", wxSlider)->GetValue() - 100;
     int g = CTRL("Blue", wxSlider)->GetValue() - 100;
     int b = CTRL("Green", wxSlider)->GetValue() - 100;
 
-    m_viewer->GetWorkingImage().AdjustRGB(r, g, b);
-    m_viewer->RefreshDisplay();
+    m_viewer->GetDisplayImage().AdjustRGB(r, g, b);
+    m_viewer->Refresh();
+#endif
 }
 
 void EditPage::OnHSL(wxScrollEvent&)
 {
+#if 0
     int h = CTRL("Hue", wxSlider)->GetValue() - 100;
     int s = CTRL("Saturation", wxSlider)->GetValue() - 100;
     int l = CTRL("Luminosity", wxSlider)->GetValue() - 100;
 
-    m_viewer->GetWorkingImage().AdjustHSL(h, s, l);
+    m_viewer->GetDisplayImage().AdjustHSL(h, s, l);
+    m_viewer->Refresh();
+#endif
+}
+
+void EditPage::OnUndoLastFilter(wxCommandEvent&)
+{
+    Filters &filters = m_viewer->GetFilters();
+    filters.Undo();
+
     m_viewer->RefreshDisplay();
+
+    Library::Get()->Update(filters);
 }
 

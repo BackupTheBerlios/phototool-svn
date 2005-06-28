@@ -66,9 +66,11 @@ void SlideShowFrame::UpdatePhoto()
             m_timer.Stop();
             Close();
             return;
-        } else if (m_idx < 0)
+        } 
+        else if (m_idx < 0)
             m_idx = 0;
-    } else {
+    } 
+    else {
         // No timer set, wrap index
         if (m_idx >= count)
             m_idx = 0;

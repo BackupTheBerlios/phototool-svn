@@ -76,7 +76,8 @@ bool PluginManager::LoadPlugins(const wxString& path)
                 // Load the plugin instance
                 PluginBase *plugin = plugin_load(); 
                 m_plugins.Add(plugin);
-            } else {
+            } 
+            else {
                 // plugin_load was not defined (invalid plugin?)
                 wxPrintf(_T("Could not load plugin: %s\n"), 
                          pluginNames[i].c_str());

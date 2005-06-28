@@ -19,37 +19,48 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "DateTimeDialog.h"
+#ifndef DATETIME_H
+#define DATETIME_H
+
+#include "InputDialog.h"
 #include "Util.h"
 
-#include <wx/xrc/xmlres.h>
 #include <wx/calctrl.h>
 #include <wx/spinctrl.h>
 
-DateTimeDialog::DateTimeDialog(wxWindow *parent, wxDateTime& dateTime)
-    : InputDialog(parent, _T("DateTimePanel"), _T("Date/Time")),
-      m_dateTime(dateTime)
+class DateTimeDialog : public InputDialog
 {
-    TransferDataToWindow();
-}
+public:
+    DateTimeDialog(wxWindow *parent, wxDateTime& dateTime);
 
-bool DateTimeDialog::TransferDataToWindow()
+    bool TransferDataToWindow();
+    bool TransferDataFromWindow();
+
+    ACCESSOR(DateTime, m_dateTime, wxDateTime)
+
+private:
+    wxCalendarCtrl *m_calendar;
+    wxSpinCtrl *m_hour, *m_minute, *m_second;
+
+    wxDateTime m_dateTime;
+};
+
+class DateTimeCtrl : public wxPanel
 {
-    CTRL("Calendar", wxCalendarCtrl)->SetDate(m_dateTime);
-    CTRL("Hour", wxSpinCtrl)->SetValue(m_dateTime.GetHour());
-    CTRL("Minute", wxSpinCtrl)->SetValue(m_dateTime.GetMinute());
-    CTRL("Second", wxSpinCtrl)->SetValue(m_dateTime.GetSecond());
+public:
+    DateTimeCtrl(wxWindow* parent);
 
-    return true;
-}
+    void OnDateTime(wxCommandEvent&);
 
-bool DateTimeDialog::TransferDataFromWindow()
-{
-    m_dateTime = CTRL("Calendar", wxCalendarCtrl)->GetDate();
-    m_dateTime.SetHour(CTRL("Hour", wxSpinCtrl)->GetValue());
-    m_dateTime.SetMinute(CTRL("Minute", wxSpinCtrl)->GetValue());
-    m_dateTime.SetSecond(CTRL("Second", wxSpinCtrl)->GetValue());
+    wxDateTime GetValue() const;
+    void SetValue(const wxDateTime& dt);
 
-    return true;
-}
+private:
+    wxTextCtrl *m_text;
+
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+#endif
 

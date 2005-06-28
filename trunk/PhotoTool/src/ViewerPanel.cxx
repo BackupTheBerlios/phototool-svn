@@ -44,7 +44,8 @@ void ViewerPanel::SetPhoto(const Photo& photo)
         m_bitmap = wxImage(photo.GetFileName());
 
         SetScrollbars(1, 1, m_bitmap.GetWidth(), m_bitmap.GetHeight());
-    } else {
+    } 
+    else {
         m_bitmap = wxBitmap();
     }
 

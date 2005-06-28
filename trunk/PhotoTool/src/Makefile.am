@@ -9,9 +9,10 @@ phototool_SOURCES = \
 	   AboutDialog.cxx AboutDialog.h \
 	   Album.cxx Album.h \
 	   Camera.cxx Camera.h \
-	   DateTimeDialog.cxx DateTimeDialog.h \
+	   DateTime.cxx DateTime.h \
 	   EditDialog.cxx EditDialog.h \
 	   EditPage.cxx EditPage.h \
+	   Filters.cxx Filters.h \
 	   Frame.cxx Frame.h \
 	   Image.cxx Image.h \
 	   ImportDialog.cxx ImportDialog.h \
@@ -30,9 +31,9 @@ phototool_SOURCES = \
 	   PhotoEvent.cxx PhotoEvent.h \
 	   PhotoList.cxx PhotoList.h \
 	   PhotoTool.cxx PhotoTool.h \
+	   PluginManager.cxx PluginManager.h \
 	   Record.cxx Record.h \
 	   SetupDialog.cxx SetupDialog.h \
-	   PluginManager.cxx PluginManager.h \
 	   SlideShowDialog.cxx SlideShowDialog.h \
 	   SlideShowFrame.cxx SlideShowFrame.h \
 	   sqlite.cxx SQL.h Util.h Config.h \
@@ -41,6 +42,7 @@ phototool_SOURCES = \
 	   ThumbList.cxx ThumbList.h \
 	   ViewerPage.cxx ViewerPage.h \
 	   ViewerPanel.cxx ViewerPanel.h \
+	   WorkerThread.cxx WorkerThread.h \
 	   wxBoxList.cxx wxBoxList.h \
 	   wxExif.cxx wxExif.h \
 	   wxExifList.cxx wxExifList.h

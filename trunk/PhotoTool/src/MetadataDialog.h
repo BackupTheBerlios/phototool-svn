@@ -38,6 +38,8 @@ public:
 private:
     Photo m_photo;
 
+    wxExifList *m_list;
+
     DECLARE_EVENT_TABLE()
 };
 

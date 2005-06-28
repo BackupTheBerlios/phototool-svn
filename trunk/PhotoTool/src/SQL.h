@@ -22,8 +22,8 @@
 #ifndef SQL_H
 #define SQL_H
 
-#define CREATE_PHOTO ( \
-    _T("CREATE TABLE photo (                          ") \
+#define CREATE_PHOTOS ( \
+    _T("CREATE TABLE photos (                         ") \
     _T("    photo_id INTEGER PRIMARY KEY NOT NULL,    ") \
     _T("                                              ") \
     _T("    filename VARCHAR NOT NULL,                ") \
@@ -36,8 +36,8 @@
     _T("    camera INTEGER NOT NULL                   ") \
     _T(");                                            "))
 
-#define CREATE_CAMERA ( \
-    _T("CREATE TABLE camera (                         ") \
+#define CREATE_CAMERAS ( \
+    _T("CREATE TABLE cameras (                        ") \
     _T("    camera_id INTEGER PRIMARY KEY NOT NULL,   ") \
     _T("                                              ") \
     _T("    model VARCHAR,                            ") \
@@ -47,16 +47,16 @@
     _T("    zoom DECIMAL                              ") \
     _T(");                                            "))
 
-#define CREATE_ALBUM ( \
-    _T("CREATE TABLE album (                          ") \
+#define CREATE_ALBUMS ( \
+    _T("CREATE TABLE albums (                         ") \
     _T("    album_id INTEGER PRIMARY KEY NOT NULL,    ") \
     _T("                                              ") \
     _T("    name VARCHAR NOT NULL UNIQUE,             ") \
     _T("    description VARCHAR                       ") \
     _T(");                                            "))
 
-#define CREATE_PHOTO_ALBUM ( \
-    _T("CREATE TABLE photo_album (                           ") \
+#define CREATE_PHOTO_ALBUMS ( \
+    _T("CREATE TABLE photo_albums (                          ") \
     _T("    photo_album_id INTEGER PRIMARY KEY NOT NULL,     ") \
     _T("                                                     ") \
     _T("    album INTEGER NOT NULL,                          ") \
@@ -66,13 +66,25 @@
     _T("    UNIQUE(album, photo)                             ") \
     _T(");                                                   "))
 
-#define CREATE_LOCATION ( \
-    _T("CREATE TABLE location (                       ") \
+#define CREATE_LOCATIONS ( \
+    _T("CREATE TABLE locations (                       ") \
     _T("    location_id INTEGER PRIMARY KEY NOT NULL, ") \
     _T("                                              ") \
     _T("    name VARCHAR NOT NULL UNIQUE,             ") \
     _T("    description VARCHAR                       ") \
     _T(");                                            "))
+
+#define CREATE_ALTERATIONS ( \
+    _T("CREATE TABLE filters (                          ") \
+    _T("    filter_id INTEGER PRIMARY KEY NOT NULL,     ") \
+    _T("                                                ") \
+    _T("    photo INTEGER NOT NULL,                     ") \
+    _T("    name VARCHAR NOT NULL,                      ") \
+    _T("    value VARCHAR                               ") \
+    _T("    sequence INTEGER NOT NULL,                  ") \
+    _T("                                                ") \
+    _T("    UNIQUE(name, photo, sequence)               ") \
+    _T(");                                              "))
 
 #endif
 

@@ -31,6 +31,10 @@ public:
 
     bool TransferDataFromWindow();
     bool TransferDataToWindow();
+
+private:
+    wxChoice *m_albums;
+    wxSpinCtrl *m_transitionTime;
 };
 
 #endif

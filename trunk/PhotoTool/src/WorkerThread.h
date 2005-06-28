@@ -19,47 +19,30 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef WORKERTHREAD_H
+#define WORKERTHREAD_H
 
-#include <wx/wx.h>
-#include <wx/notebook.h>
+#include "Util.h"
 
-class ViewerPanel;
-class PageBase;
+#include <wx/thread.h>
 
-class Frame : public wxFrame
+typedef bool (*WorkerFunction)(void);
+
+class WorkerThread : public wxThread
 {
 public:
-    Frame(const wxString& title);
+    WorkerThread(WorkerFunction func)
+        : m_func(func), m_result(false) { }
 
-    void OnFileOpen(wxCommandEvent&);
-    void OnFileImport(wxCommandEvent&);
-    void OnFileExit(wxCommandEvent&);
+    void *Entry();
 
-    void OnEditCameras(wxCommandEvent&);
-    void OnEditLocations(wxCommandEvent&);
-    void OnEditAlbums(wxCommandEvent&);
-    void OnEditPreferences(wxCommandEvent&);
+    ACCESSOR(Result, m_result, bool)
 
-    void OnPhotoEdit(wxCommandEvent&);
-    void OnPhotoMetadata(wxCommandEvent&);
-    void OnPhotoDelete(wxCommandEvent&);
-    void OnPhotoSlideShow(wxCommandEvent&);
-
-    void OnHelpAbout(wxCommandEvent&);
-
-    void OnPageChanged(wxNotebookEvent& evt);
+    static bool DoWork(WorkerFunction func, bool yield = true, int priority = 75);
 
 private:
-    wxNotebook *m_book;
-
-    PageBase* GetCurrentPage();
-
-    void InitMenu();
-    void InitToolBar();
-
-    DECLARE_EVENT_TABLE()
+    WorkerFunction m_func;
+    bool m_result;
 };
 
 #endif

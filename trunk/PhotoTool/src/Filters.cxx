@@ -19,48 +19,32 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef FRAME_H
-#define FRAME_H
+#include "Filters.h"
 
-#include <wx/wx.h>
-#include <wx/notebook.h>
+#include <wx/arrimpl.cpp>
+WX_DEFINE_OBJARRAY(FiltersBase);
 
-class ViewerPanel;
-class PageBase;
-
-class Frame : public wxFrame
+void Filters::Apply(Image& image)
 {
-public:
-    Frame(const wxString& title);
+    for(size_t i = 0; i < Count(); i++) {
+        Filter &filter = (*this)[i];
 
-    void OnFileOpen(wxCommandEvent&);
-    void OnFileImport(wxCommandEvent&);
-    void OnFileExit(wxCommandEvent&);
+        if (filter.GetName() == _T("GrayScale")) {
+            image.ConvertToGrayScale();
+        } 
+        else {
+            wxPrintf(_T("Unsupported filter\n"));
+        }
+    }
+}
 
-    void OnEditCameras(wxCommandEvent&);
-    void OnEditLocations(wxCommandEvent&);
-    void OnEditAlbums(wxCommandEvent&);
-    void OnEditPreferences(wxCommandEvent&);
-
-    void OnPhotoEdit(wxCommandEvent&);
-    void OnPhotoMetadata(wxCommandEvent&);
-    void OnPhotoDelete(wxCommandEvent&);
-    void OnPhotoSlideShow(wxCommandEvent&);
-
-    void OnHelpAbout(wxCommandEvent&);
-
-    void OnPageChanged(wxNotebookEvent& evt);
-
-private:
-    wxNotebook *m_book;
-
-    PageBase* GetCurrentPage();
-
-    void InitMenu();
-    void InitToolBar();
-
-    DECLARE_EVENT_TABLE()
-};
-
-#endif
+bool Filters::Undo()
+{
+    if (Count() == 0) {
+        return false;
+    } else {
+        RemoveAt(Count() - 1);
+        return true;
+    }
+}
 

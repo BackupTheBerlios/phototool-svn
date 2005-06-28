@@ -23,25 +23,50 @@
 #include "Notify.h"
 #include "Util.h"
 
-#include <wx/xrc/xmlres.h>
+#define ID_AddButton    100
+#define ID_EditButton   101
+#define ID_RemoveButton 102
+#define ID_CloseButton  103
+#define ID_ItemList     104
 
 BEGIN_EVENT_TABLE(ListDialog, wxDialog)
-    EVT_BUTTON(XRCID("Add"), ListDialog::OnAction)
-    EVT_BUTTON(XRCID("Edit"), ListDialog::OnAction)
-    EVT_BUTTON(XRCID("Remove"), ListDialog::OnAction)
+    EVT_BUTTON(ID_AddButton, ListDialog::OnAction)
+    EVT_BUTTON(ID_EditButton, ListDialog::OnAction)
+    EVT_BUTTON(ID_RemoveButton, ListDialog::OnAction)
 
-    EVT_LISTBOX_DCLICK(XRCID("List"), ListDialog::OnAction)
+    EVT_LISTBOX_DCLICK(ID_ItemList, ListDialog::OnAction)
 
-    EVT_BUTTON(XRCID("Close"), ListDialog::OnClose)
+    EVT_BUTTON(ID_CloseButton, ListDialog::OnClose)
 END_EVENT_TABLE()
 
 ListDialog::ListDialog(wxWindow *parent, const wxString& title)
     : wxDialog(parent, wxID_ANY, title)
 {
-    wxXmlResource::Get()->LoadPanel(this, _T("ListPanel"));
-    Fit();
+    m_list = new wxListBox(this, ID_ItemList, wxDefaultPosition,
+                           wxSize(-1, 200));
 
-    m_list = CTRL("List", wxListBox);
+    // Add buttons to sizer
+    wxBoxSizer *btnSizer = new wxBoxSizer(wxHORIZONTAL);
+    btnSizer->Add(new wxButton(this, ID_AddButton, _T("Add...")), 
+                  0, wxALL, 5);
+    btnSizer->Add(new wxButton(this, ID_EditButton, _T("Edit...")), 
+                  0, wxALL, 5);
+    btnSizer->Add(new wxButton(this, ID_RemoveButton, _T("Remove")), 
+                  0, wxALL, 5);
+
+    // Add list and buttons to static box
+    wxStaticBox *sbox = new wxStaticBox(this, -1, GetTitle());
+    wxStaticBoxSizer *ssizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+    ssizer->Add(m_list, 1, wxEXPAND|wxALL, 5);
+    ssizer->Add(btnSizer, 0, wxEXPAND);
+
+    // Wrap it all up
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(ssizer, 1, wxEXPAND|wxALL, 5);
+    sizer->Add(new wxButton(this, ID_CloseButton, _T("Close")), 
+               0, wxALL|wxALIGN_RIGHT, 5);
+    SetSizer(sizer);
+    Fit();
 
     TransferDataToWindow();
 }
@@ -50,19 +75,19 @@ void ListDialog::OnAction(wxCommandEvent& evt)
 {
     bool refresh = false;
 
-    if (XRCID("Add") == evt.GetId()) {
+    if (ID_AddButton == evt.GetId()) {
         // Add a new item
         refresh = DoAdd();
-
-    } else if (XRCID("Edit") == evt.GetId() || XRCID("List") == evt.GetId()) {
+    } 
+    else if (ID_EditButton == evt.GetId() || ID_ItemList == evt.GetId()) {
         // Edit an existing item
         wxString sel = m_list->GetStringSelection();
         if (sel.Length() == 0)
             Notify::Error(this, _T("Select an item to edit"));
         else 
             refresh = DoEdit(sel);
-
-    } else if (XRCID("Remove") == evt.GetId()) {
+    } 
+    else if (ID_RemoveButton == evt.GetId()) {
         // Remove the selected item
         wxString sel = m_list->GetStringSelection();
         if (sel.Length() == 0)

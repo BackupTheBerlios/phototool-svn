@@ -36,8 +36,8 @@ LookupPage::LookupPage(wxNotebook *parent)
                                    wxSize(300, 300), 
                                    wxSP_3DSASH | wxSP_LIVE_UPDATE);
 
-    // Photo list
-    m_photoList = new PhotoList(m_split);
+    // Prevent photo list from being updated
+    m_loading = true;
 
     // Lookup side panel (lookup list + photo calendar)
     wxPanel *p = new wxPanel(m_split);
@@ -50,8 +50,13 @@ LookupPage::LookupPage(wxNotebook *parent)
     p->SetSizer(sizer);
     p->Fit();
 
+    // Photo list
+    m_photoList = new PhotoList(m_split);
+
     // Split the window 
     m_split->SplitVertically(p, m_photoList, Config::GetSplitPos());
+
+    m_loading = false;
 
     sizer = new wxBoxSizer(wxVERTICAL);
     sizer->Add(m_split, 1, wxEXPAND);
@@ -66,7 +71,7 @@ LookupPage::~LookupPage()
 
 void LookupPage::OnPhotos(PhotoEvent& evt)
 {
-    if (evt.HasPhotos())
+    if (evt.HasPhotos() && !m_loading)
         m_photoList->SetList(evt.GetPhotos());
 }
 

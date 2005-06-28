@@ -24,6 +24,9 @@
 
 #include "InputDialog.h"
 
+class LocationLookup;
+class CameraLookup;
+
 class ImportDialog : public InputDialog
 {
 public:
@@ -39,6 +42,11 @@ public:
 
 private:
     wxArrayString m_importList;
+
+    LocationLookup *m_location;
+    CameraLookup *m_camera;
+    wxListBox *m_list;
+    wxCheckBox *m_copy, *m_remove;
 
     DECLARE_EVENT_TABLE()
 };

@@ -25,7 +25,6 @@
 #include "Notify.h"
 #include "Util.h"
 
-#include <wx/xrc/xmlres.h>
 #include <wx/dnd.h>
 
 BEGIN_EVENT_TABLE(PhotoList, wxHtmlListBox)
@@ -90,7 +89,8 @@ void PhotoList::OnEdit(wxCommandEvent&)
             m_photoList[id] = dlg->GetPhoto();
             Refresh();
         }
-    } else {
+    } 
+    else {
         Notify::Info(this, _T("Select an item to edit"));
     }
 }
@@ -115,7 +115,22 @@ Photo PhotoList::GetPhoto()
 
 void PhotoList::OnPopup(wxMouseEvent&)
 {
-    POPUP_MENU("PopupMenu", "Photo");
+#define ID_PhotoEdit        300
+#define ID_PhotoMetadata    301
+#define ID_PhotoDelete      302
+#define ID_PhotoSlideShow   304
+
+    wxMenu *menu = new wxMenu();
+    menu->Append(ID_PhotoEdit, _T("&Edit..."),
+                 _T("Edit the selected photo"));
+    menu->Append(ID_PhotoMetadata, _T("&Metadata..."),
+                 _T("View the selected photo's metadata (exif)"));
+    menu->Append(ID_PhotoDelete, _T("&Delete"),
+                 _T("Delete the selected photo"));
+    menu->AppendSeparator();
+    menu->Append(ID_PhotoSlideShow, _T("&Slide show..."),
+                 _T("Start a slide show"));
+    PopupMenu(menu);
 }
 
 void PhotoList::OnDragDrop(wxMouseEvent& evt)

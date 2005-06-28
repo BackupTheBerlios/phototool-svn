@@ -1,6 +1,11 @@
 PhotoTool TODO List
 -------------------
 
+- Handle changing timezones.
+    - Timestamp is probably being stored in UTC, then interpreted in the
+      current time zone.  The result is that photos in the database can't be
+      located.
+
 - Use exif to initially populate database fields.  Export database information
   to exif when requested.
 
@@ -14,6 +19,10 @@ PhotoTool TODO List
     - Add a reference counter to Record.
     - Repositories are checked first before querying database.
     - Simplifies view refresh cycle, reducing the number of queries.
+
+    - Check cache after querying, using photo ID as a cache identifier.
+    - Goal is to have a single instance of each photo that is in use, instead
+      of several copies (as is done now).
 
 - AlbumList: Change from wxListBox to a better check list box
     - Try using wxHtmlListBox with HTML check boxes for the album selection
@@ -91,4 +100,5 @@ Plugin Interface Notes
 - Export plugin
     - Export photos to various mediums.
     - Categorize by album, date, etc.
+    - Scale photos to desired size.
 

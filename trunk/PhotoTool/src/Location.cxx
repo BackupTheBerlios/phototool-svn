@@ -89,7 +89,6 @@ bool LocationDialog::TransferDataToWindow()
 IMPLEMENT_DYNAMIC_CLASS(LocationLookup, wxChoice)
 
 BEGIN_EVENT_TABLE(LocationLookup, wxChoice)
-    EVT_WINDOW_CREATE(LocationLookup::OnCreate)
     EVT_CHOICE(wxID_ANY, LocationLookup::OnSelect)
 END_EVENT_TABLE()
 
@@ -98,10 +97,6 @@ LocationLookup::LocationLookup(wxWindow *parent, wxWindowID id,
                                long style, const wxValidator& validator,
                                const wxString &name)
     : wxChoice(parent, id, pos, size, wxArrayString(), style, validator, name)
-{
-}
-
-void LocationLookup::OnCreate(wxWindowCreateEvent&)
 {
     PopulateLookup();
 }

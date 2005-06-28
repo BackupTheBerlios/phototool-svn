@@ -49,6 +49,8 @@ private:
 
     PhotoList *m_photoList;
 
+    bool m_loading;
+
     DECLARE_EVENT_TABLE()
 };
 

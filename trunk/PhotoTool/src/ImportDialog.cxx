@@ -24,35 +24,99 @@
 #include "Notify.h"
 #include "Library.h"
 #include "Config.h"
+#include "Location.h"
+#include "Camera.h"
 
-#include <wx/xrc/xmlres.h>
 #include <wx/tokenzr.h>
 #include <wx/filefn.h>
 #include <wx/filename.h>
 #include <wx/dir.h>
 
+#define ID_ImportFilesButton        100
+#define ID_ImportDirectoryButton    101
+#define ID_ImportRemoveButton       102
+#define ID_CopyFilesCheck           103
+
 BEGIN_EVENT_TABLE(ImportDialog, InputDialog)
-    EVT_BUTTON(XRCID("ImportFiles"), ImportDialog::OnAddFiles)
-    EVT_BUTTON(XRCID("ImportDirectory"), ImportDialog::OnAddDirectory)
-    EVT_BUTTON(XRCID("ImportRemove"), ImportDialog::OnRemoveFiles)
-    EVT_CHECKBOX(XRCID("CopyFiles"), ImportDialog::OnCopyFiles)
+    EVT_BUTTON(ID_ImportFilesButton, ImportDialog::OnAddFiles)
+    EVT_BUTTON(ID_ImportDirectoryButton, ImportDialog::OnAddDirectory)
+    EVT_BUTTON(ID_ImportRemoveButton, ImportDialog::OnRemoveFiles)
+    EVT_CHECKBOX(ID_CopyFilesCheck, ImportDialog::OnCopyFiles)
 END_EVENT_TABLE()
 
 ImportDialog::ImportDialog(wxWindow *parent)
-    : InputDialog(parent, _T("ImportPanel"), _T("Import Photos"))
+    : InputDialog(parent, _T("Import Photos"))
 {
+    // TODO
     // Change OK button text to something more appropriate
-    CTRL("OK", wxButton)->SetLabel(_T("Import..."));
+    //CTRL("OK", wxButton)->SetLabel(_T("Import..."));
+  
+    m_location = new LocationLookup(this);
+    m_camera = new CameraLookup(this);
+    m_list = new wxListBox(this, -1, wxDefaultPosition, wxSize(150, 280));
+    m_copy = new wxCheckBox(this, ID_CopyFilesCheck, 
+                            _T("Copy files into PhotoTool directory"));
+    m_remove = new wxCheckBox(this, -1, _T("Remove original files"));
+
+    // Default configuration for imported photos
+    wxFlexGridSizer *fsizer = new wxFlexGridSizer(2, 10, 10);
+    fsizer->AddGrowableCol(1);
+    fsizer->Add(new wxStaticText(this, -1, _T("Location:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_location);
+    fsizer->Add(new wxStaticText(this, -1, _T("Camera:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_camera);
+
+    wxStaticBox *sbox = new wxStaticBox(this, -1, _T("Defaults"));
+    wxStaticBoxSizer *defSizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+    defSizer->Add(fsizer, 0, wxEXPAND|wxALL, 5);
+
+    // Import photos
+    wxBoxSizer *actSizer = new wxBoxSizer(wxHORIZONTAL);
+    actSizer->Add(new wxButton(this, ID_ImportFilesButton, 
+                               _T("Add Files...")),
+                  0, wxALL, 5);
+    actSizer->Add(new wxButton(this, ID_ImportDirectoryButton, 
+                               _T("Add Directory...")),
+                  0, wxALL, 5);
+    actSizer->Add(40, 10, 1, wxEXPAND);
+    actSizer->Add(new wxButton(this, ID_ImportRemoveButton,
+                               _T("Remove")),
+                  0, wxALL, 5);
+
+    sbox = new wxStaticBox(this, -1, _T("Photos"));
+    wxStaticBoxSizer *importSizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+    importSizer->Add(m_list, 1, wxEXPAND|wxALL, 5);
+    importSizer->Add(actSizer, 0, wxEXPAND);
+
+    // Configuration options
+    sbox = new wxStaticBox(this, -1, _T("Options"));
+    wxStaticBoxSizer *optSizer = new wxStaticBoxSizer(sbox, wxHORIZONTAL);
+    optSizer->Add(m_copy, 0, wxALL, 5);
+    optSizer->Add(m_remove, 0, wxALL, 5);
+
+    // Group everything together
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(defSizer, 0, wxEXPAND|wxALL, 5);
+    sizer->Add(importSizer, 0, wxEXPAND|wxALL, 5);
+    sizer->Add(optSizer, 0, wxEXPAND|wxALL, 5);
+    SetSizer(sizer);
+    Fit();
 }
 
 void ImportDialog::OnAddFiles(wxCommandEvent&)
 {
     wxFileDialog *dlg = new wxFileDialog(this, _T("Import Photos"), 
-                                         wxEmptyString, wxEmptyString, 
-                                         IMAGE_WILDCARD, wxOPEN | wxMULTIPLE);
+                                         Config::GetDefaultPath(), 
+                                         wxEmptyString, IMAGE_WILDCARD, 
+                                         wxOPEN | wxMULTIPLE);
 
     if (dlg->ShowModal() == wxID_OK) {
         wxString dir = dlg->GetDirectory();
+
+        // Save default path
+        Config::SetDefaultPath(dir);
 
         wxArrayString files; 
         dlg->GetFilenames(files);
@@ -75,11 +139,14 @@ void ImportDialog::OnAddFiles(wxCommandEvent&)
 
 void ImportDialog::OnAddDirectory(wxCommandEvent&)
 {
-    wxDirDialog *dlg = new wxDirDialog(this, _T("Import Photos"));
+    wxDirDialog *dlg = new wxDirDialog(this, _T("Import Photos"), 
+                                       Config::GetDefaultPath());
 
     if (dlg->ShowModal() == wxID_OK) {
-
         wxArrayString fileNames;
+
+        // Save default path
+        Config::SetDefaultPath(dlg->GetPath());
 
         // wxDir::GetAllFiles only supports simple filters, so we need to loop
         // though the list to get all the desired extensions.
@@ -106,10 +173,10 @@ void ImportDialog::OnAddDirectory(wxCommandEvent&)
 void ImportDialog::OnRemoveFiles(wxCommandEvent&)
 {
     wxArrayInt sel;
-    CTRL("ImportList", wxListBox)->GetSelections(sel);
+    m_list->GetSelections(sel);
 
     for(size_t i = 0; i < sel.Count(); i++)
-        m_importList.Remove(CTRL("ImportList", wxListBox)->GetString(sel[i]));
+        m_importList.Remove(m_list->GetString(sel[i]));
 
     TransferDataToWindow();
 }
@@ -117,20 +184,20 @@ void ImportDialog::OnRemoveFiles(wxCommandEvent&)
 void ImportDialog::OnCopyFiles(wxCommandEvent&)
 {
     // We can only remove files if copying is turned on
-    bool canRemove = CTRL("CopyFiles", wxCheckBox)->IsChecked();
-    CTRL("RemoveFiles", wxCheckBox)->Enable(canRemove);
+    bool canRemove = m_copy->IsChecked();
+    m_remove->Enable(canRemove);
 }
 
 bool ImportDialog::TransferDataToWindow()
 {
     wxString location = Config::GetDefaultLocation();
-    CTRL("DefaultLocation", wxChoice)->SetStringSelection(location);
+    m_location->SetStringSelection(location);
 
     wxString camera = Config::GetDefaultCamera();
-    CTRL("DefaultCamera", wxChoice)->SetStringSelection(camera);
+    m_camera->SetStringSelection(camera);
 
-    // Update the list of images to import
-    CTRL("ImportList", wxListBox)->Set(m_importList);
+    // Update the list of photos to import
+    m_list->Set(m_importList);
     return true;
 }
 
@@ -142,18 +209,18 @@ bool ImportDialog::TransferDataFromWindow()
     }
 
     bool success = true,
-         copy = CTRL("CopyFiles", wxCheckBox)->IsChecked(),
-         remove = CTRL("RemoveFiles", wxCheckBox)->IsChecked();
+         copy = m_copy->IsChecked(),
+         remove = m_remove->IsChecked();
 
     wxString def;
 
     // Record default location
-    def = CTRL("DefaultLocation", wxChoice)->GetStringSelection();
+    def = m_location->GetStringSelection();
     Config::SetDefaultLocation(def);
     Location location = Library::Get()->GetLocation(def);
 
     // Record default camera
-    def = CTRL("DefaultCamera", wxChoice)->GetStringSelection();
+    def = m_camera->GetStringSelection();
     Config::SetDefaultCamera(def);
     Camera camera = Library::Get()->GetCamera(def);
 
@@ -189,8 +256,8 @@ bool ImportDialog::TransferDataFromWindow()
                 // Remove the existing file
                 wxRemoveFile(fileName.GetFullPath());
             }
-
-        } else {
+        } 
+        else {
             // Record the path
             photo.SetExternalFileName(fileName.GetFullPath());
             Library::Get()->Update(photo);

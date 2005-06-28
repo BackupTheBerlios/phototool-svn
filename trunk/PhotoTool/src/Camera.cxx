@@ -22,8 +22,6 @@
 #include "Camera.h"
 #include "Notify.h"
 
-#include <wx/xrc/xmlres.h>
-
 CameraListDialog::CameraListDialog(wxWindow *parent)
     : ListDialog(parent, _T("Cameras"))
 {
@@ -58,8 +56,45 @@ bool CameraListDialog::DoRemove(const wxString& item)
 
 
 CameraDialog::CameraDialog(wxWindow *parent, const wxString& name)
-    : InputDialog(parent, _T("CameraPanel"), _T("Edit Camera"))
+    : InputDialog(parent, _T("Edit Camera"))
 {
+    m_manufacturer = new wxComboBox(this, -1, wxEmptyString,
+                                    wxDefaultPosition, wxSize(200, -1));
+    m_model = new wxTextCtrl(this, -1);
+    m_megapixels = new wxTextCtrl(this, -1, wxEmptyString, 
+                                  wxDefaultPosition, wxSize(40, -1));
+    m_zoom = new wxTextCtrl(this, -1, wxEmptyString, 
+                            wxDefaultPosition, wxSize(40, -1));
+
+    m_default = new wxCheckBox(this, -1, _T("Make default camera"));
+
+    // Camera information
+    wxFlexGridSizer *fsizer = new wxFlexGridSizer(2, 10, 10);
+    fsizer->AddGrowableCol(1);
+    fsizer->Add(new wxStaticText(this, -1, _T("Manufacturer:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_manufacturer);
+    fsizer->Add(new wxStaticText(this, -1, _T("Model:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_model, 0, wxEXPAND);
+    fsizer->Add(new wxStaticText(this, -1, _T("MegaPixels:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_megapixels);
+    fsizer->Add(new wxStaticText(this, -1, _T("Zoom:")),
+                0, wxALIGN_CENTER_VERTICAL);
+    fsizer->Add(m_zoom);
+    fsizer->Add(10, 10);
+    fsizer->Add(m_default);
+
+    wxStaticBox *sbox = new wxStaticBox(this, -1, _T("Camera Information"));
+    wxStaticBoxSizer *ssizer = new wxStaticBoxSizer(sbox, wxVERTICAL);
+    ssizer->Add(fsizer, 0, wxEXPAND|wxALL, 5);
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(ssizer, 0, wxEXPAND|wxALL, 5);
+    SetSizer(sizer);
+    Fit();
+
     if (name.Length() != 0) {
         m_camera = Library::Get()->GetCamera(name);
         TransferDataToWindow();
@@ -68,22 +103,22 @@ CameraDialog::CameraDialog(wxWindow *parent, const wxString& name)
 
 bool CameraDialog::TransferDataFromWindow()
 {
-    if (CTRL("Manufacturer", wxComboBox)->GetValue().Length() == 0 ||
-        CTRL("Model", wxTextCtrl)->GetValue().Length() == 0) {
+    if (m_manufacturer->GetValue().Length() == 0 ||
+        m_model->GetValue().Length() == 0) {
         Notify::Info(this, _T("Enter a model and manufacturer for ") 
                      _T("this camera"));
         return false;
     }
 
-    m_camera.SetManufacturer(CTRL("Manufacturer", wxComboBox)->GetValue());
-    m_camera.SetModel(CTRL("Model", wxTextCtrl)->GetValue());
+    m_camera.SetManufacturer(m_manufacturer->GetValue());
+    m_camera.SetModel(m_model->GetValue());
 
     double conv = 0;
-    CTRL("MegaPixels", wxTextCtrl)->GetValue().ToDouble(&conv);
+    m_megapixels->GetValue().ToDouble(&conv);
     m_camera.SetMegaPixels(conv);
 
     conv = 0;
-    CTRL("Zoom", wxTextCtrl)->GetValue().ToDouble(&conv);
+    m_zoom->GetValue().ToDouble(&conv);
     m_camera.SetZoom(conv);
 
     return Library::Get()->Update(m_camera);
@@ -91,16 +126,16 @@ bool CameraDialog::TransferDataFromWindow()
 
 bool CameraDialog::TransferDataToWindow()
 {
-    CTRL("Manufacturer", wxComboBox)->SetValue(m_camera.GetManufacturer());
-    CTRL("Model", wxTextCtrl)->SetValue(m_camera.GetModel());
+    m_manufacturer->SetValue(m_camera.GetManufacturer());
+    m_model->SetValue(m_camera.GetModel());
 
     wxString conv;
     conv << m_camera.GetMegaPixels();
-    CTRL("MegaPixels", wxTextCtrl)->SetValue(conv);
+    m_megapixels->SetValue(conv);
 
     conv.Clear();
     conv << m_camera.GetZoom();
-    CTRL("Zoom", wxTextCtrl)->SetValue(conv);
+    m_zoom->SetValue(conv);
 
     return true;
 }
@@ -110,7 +145,6 @@ bool CameraDialog::TransferDataToWindow()
 IMPLEMENT_DYNAMIC_CLASS(CameraLookup, wxChoice)
 
 BEGIN_EVENT_TABLE(CameraLookup, wxChoice)
-    EVT_WINDOW_CREATE(CameraLookup::OnCreate)
     EVT_CHOICE(wxID_ANY, CameraLookup::OnSelect)
 END_EVENT_TABLE()
 
@@ -118,11 +152,6 @@ CameraLookup::CameraLookup(wxWindow *parent, wxWindowID id,
                            const wxPoint &pos, const wxSize &size, long style,
                            const wxValidator& validator, const wxString &name)
     : wxChoice(parent, id, pos, size, wxArrayString(), style, validator, name)
-{
-    PopulateLookup();
-}
-
-void CameraLookup::OnCreate(wxWindowCreateEvent&)
 {
     PopulateLookup();
 }

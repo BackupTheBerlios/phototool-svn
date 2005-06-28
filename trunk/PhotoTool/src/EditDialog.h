@@ -34,6 +34,9 @@ public:
 
     wxString GetDescription();
     void SetDescription(const wxString& description);
+
+private:
+    wxTextCtrl *m_name, *m_description;
 };
 
 #endif
