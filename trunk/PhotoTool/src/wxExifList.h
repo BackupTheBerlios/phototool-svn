@@ -23,7 +23,7 @@ public:
     void OnSize(wxSizeEvent& evt);
 
 private:
-    wxExif m_data;
+    wxExif *m_data;
 
     DECLARE_DYNAMIC_CLASS(wxExifList)
     DECLARE_EVENT_TABLE()

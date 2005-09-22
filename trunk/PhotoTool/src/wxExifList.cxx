@@ -10,13 +10,18 @@ END_EVENT_TABLE()
 wxExifList::wxExifList(wxWindow *parent, wxWindowID id, 
                        const wxPoint &pos, const wxSize &size, long style,
                        const wxValidator& validator, const wxString &name)
-    : wxListCtrl(parent, id, pos, size, style, validator, name)
+    : wxListCtrl(parent, id, pos, size, style, validator, name), m_data(NULL)
 {
 }
 
 void wxExifList::SetFile(const wxString& file)
 {
-    m_data = wxExif(file);
+    if (m_data) {
+        delete m_data;
+        m_data = NULL;
+    }
+
+    m_data = new wxExif(file);
     PopulateList();
 }
 
@@ -27,8 +32,8 @@ void wxExifList::PopulateList()
     InsertColumn(0, _T("Tag"));
     InsertColumn(1, _T("Value"));
 
-    if (m_data.Ok()) {
-        ContentHash& hash = m_data.GetContent();
+    if (m_data->Ok()) {
+        ContentHash& hash = m_data->GetContent();
 
         // Populate key => value pairs
         long idx = -1;

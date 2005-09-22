@@ -38,6 +38,17 @@ bool PhotoTool::OnInit()
     SetAppName(_T("PhotoTool"));
     SetVendorName(_T("Bryan Bulten"));
 
+    // TODO Test current local
+#if 0
+    wxDateTime dt = wxDateTime::Now();
+    printf("Default: %u\n", dt.GetTicks());
+    printf("EST:     %u\n", dt.ToTimezone(wxDateTime::EST).GetTicks());
+    printf("EDT:     %u\n", dt.ToTimezone(wxDateTime::EDT).GetTicks());
+    printf("GMT:     %u\n", dt.ToGMT().GetTicks());
+    printf("PST:     %u\n", dt.ToTimezone(wxDateTime::PST).GetTicks());
+    printf("PDT:     %u\n", dt.ToTimezone(wxDateTime::PDT).GetTicks());
+#endif
+
     // Initialize image handlers
     wxInitAllImageHandlers();
 
