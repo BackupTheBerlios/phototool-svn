@@ -29,6 +29,7 @@
 
 #include "AboutDialog.h"
 #include "ImportDialog.h"
+#include "ExportDialog.h"
 #include "MetadataDialog.h"
 #include "PhotoDialog.h"
 #include "SetupDialog.h"
@@ -41,7 +42,8 @@
 
 #define ID_FileOpen         100
 #define ID_FileImport       101
-#define ID_FileExit         102
+#define ID_FileExport       102
+#define ID_FileExit         103
 
 #define ID_EditCameras      200
 #define ID_EditLocations    201
@@ -58,6 +60,7 @@
 BEGIN_EVENT_TABLE(Frame, wxFrame)
     EVT_MENU(ID_FileOpen, Frame::OnFileOpen)
     EVT_MENU(ID_FileImport, Frame::OnFileImport)
+    EVT_MENU(ID_FileExport, Frame::OnFileExport)
     EVT_MENU(ID_FileExit, Frame::OnFileExit)
 
     EVT_MENU(ID_EditCameras, Frame::OnEditCameras)
@@ -182,8 +185,8 @@ void Frame::InitToolBar()
 
     TOOL("import.png", ID_FileImport, "Import", 
          "Import photos into database")
-    TOOL("export.png", ID_FileImport, "Export", 
-         "Export photos from the database") // TODO
+    TOOL("export.png", ID_FileExport, "Export", 
+         "Export photos from the database")
     toolBar->AddSeparator();
     TOOL("edit.png", ID_PhotoEdit, "Edit", 
          "Edit selected photo")
@@ -221,6 +224,12 @@ void Frame::OnFileImport(wxCommandEvent&)
     if (dlg->ShowModal() == wxID_OK) {
         GetCurrentPage()->RefreshList();
     }
+}
+
+void Frame::OnFileExport(wxCommandEvent&)
+{
+    ExportDialog *dlg = new ExportDialog(this);
+    dlg->ShowModal();
 }
 
 void Frame::OnFileExit(wxCommandEvent&)

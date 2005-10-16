@@ -71,6 +71,9 @@ public:
     // Default path for browsing for files and directories
     CONFIG(DefaultPath, _T("DefaultPath"), wxString, _T(""))
 
+    // Default export export path
+    CONFIG(ExportPath, _T("ExportPath"), wxString, _T(""))
+
     static wxString GetDatabasePath() 
     {
         return GetBasePath() + wxFILE_SEP_PATH + _T("db");

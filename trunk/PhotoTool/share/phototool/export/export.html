@@ -1,0 +1,217 @@
+<html>
+<head>
+
+<style>
+body {
+    background-color: whitesmoke;
+}
+
+a.nav {
+    color: lightsteelblue;
+    font-family: monospace;
+    border: 1px solid lightsteelblue;
+    padding: 3px;
+}
+
+a.nav:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: slateblue;
+}
+
+table.frame {
+    border-color: lightsteelblue;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+}
+
+td.frame {
+    border-color: lightsteelblue;
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+}
+
+div.title {
+    color: silver;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+}
+</style>
+
+<script language="javascript" src="export.js"></script>
+
+<script language="javascript">
+
+var params;
+var photos;
+
+// Parse parameters
+function parse_params() {
+    params = new Array(0);
+
+    var query = this.location.search.substring(1);
+    if (query.length > 0) {
+        params = query.split('&');
+        for (var i = 0; i < params.length; i++) {
+            params[i] = params[i].split('=');
+        }
+    }
+}
+
+// Get a parameter's value
+function get_param(name) {
+    if (!params || params == null) {
+        parse_params();
+    }
+
+    for(var i = 0; i < params.length; i++) {
+        if (params[i][0] == name) {
+            return params[i][1];
+        }
+    }
+
+    return null;
+}
+
+// Current photo
+var idx = parseInt(get_param('idx'));
+if (isNaN(idx)) { idx = 0; }
+
+// Photo viewing properties
+// TODO: What about images that have a portrait orientation?
+var width  = 640;
+var height = 480;
+
+// Slideshow timeout 
+var timeout = 0;
+
+function update_photo() {
+
+    if (photos.length == 0) {
+        alert("This album does not contain any photos");
+        return;
+    }
+
+    if (idx < 0) {
+        idx = 0;
+    }
+    else if (idx >= photos.length) {
+        idx = photos.length - 1;
+    }
+
+    var title = document.getElementById("title");
+    title.innerHTML = photos[idx][0];
+
+    var photo = document.getElementById("photo");
+    photo.innerHTML = '<img width="' + width + '" height="' + height + 
+                      '" src="images/' + idx + '.jpg"/>';
+
+    var desc = document.getElementById("desc");
+    desc.innerHTML = photos[idx][1];
+
+    var status = document.getElementById("status");
+    status.innerHTML = (idx + 1) + ' of '
+                       + photos.length;
+}
+
+function next_photo() {
+    idx++;
+    update_photo();
+}
+
+function prev_photo() {
+    idx--;
+    update_photo();
+}
+
+function first_photo() {
+    idx = 0;
+    update_photo();
+}
+
+function last_photo() {
+    idx = photos.length - 1;
+    update_photo();
+}
+
+function photo_size(w, h) {
+    width = w;
+    height = h;
+    update_photo();
+}
+
+function start_slideshow() {
+    if (idx == photos.length - 1) {
+        idx = 0;
+    }
+
+    idx--;
+    next_slide();
+}
+
+function next_slide() {
+    if (idx < photos.length) {
+        next_photo();
+    }
+
+    // Continue slideshow if there are more photos
+    if (idx < photos.length - 1) {
+        timeout = setTimeout("next_slide()", 4000);
+    }
+}
+
+function stop_slideshow() {
+    if (timeout != 0) {
+        clearTimeout(timeout);
+        timeout = 0;
+    }
+}
+
+function load() {
+    load_photos();
+    update_photo();
+}
+
+</script>
+</head>
+
+<body onLoad="load()">
+    <table class="frame" align="center" cellspacing="0" cellpadding="5">
+        <tr>
+            <td class="frame" align="left">
+                <a class="nav" onClick="first_photo()">First</a>
+                <a class="nav" onClick="last_photo()">Last</a>
+                &nbsp;
+                <a class="nav" onClick="prev_photo()">Previous</a>
+                <a class="nav" onClick="next_photo()">Next</a>
+                &nbsp;
+                <a class="nav" onClick="start_slideshow()">Start</a>
+                <a class="nav" onClick="stop_slideshow()">Stop</a>
+                &nbsp;
+                <a class="nav" onClick="photo_size(320, 240)">320x240</a>
+                <a class="nav" onClick="photo_size(640, 480)">640x480</a>
+                <a class="nav" onClick="photo_size(1024, 768)">1024x768</a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table width="100%" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><div class="title" id="title"></div></td>
+                        <td align="right" valign="center"><div id="status"></div></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">
+                <div id="photo"></div>
+            </td>
+        </tr>
+        <tr><td valign="top"><div id="desc"></div></td></tr>
+    </table>
+</body>
+</html>

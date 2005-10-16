@@ -12,6 +12,7 @@ phototool_SOURCES = \
 	   DateTime.cxx DateTime.h \
 	   EditDialog.cxx EditDialog.h \
 	   EditPage.cxx EditPage.h \
+	   ExportDialog.cxx ExportDialog.h \
 	   Filters.cxx Filters.h \
 	   Frame.cxx Frame.h \
 	   Image.cxx Image.h \

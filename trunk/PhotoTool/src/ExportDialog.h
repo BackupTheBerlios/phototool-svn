@@ -19,46 +19,27 @@
  * Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef EXPORTDIALOG_H
+#define EXPORTDIALOG_H
 
-#include <wx/wx.h>
-#include <wx/notebook.h>
+#include "InputDialog.h"
 
-class ViewerPanel;
-class PageBase;
-
-class Frame : public wxFrame
+class ExportDialog : public InputDialog
 {
 public:
-    Frame(const wxString& title);
+    ExportDialog(wxWindow *parent);
 
-    void OnFileOpen(wxCommandEvent&);
-    void OnFileImport(wxCommandEvent&);
-    void OnFileExport(wxCommandEvent&);
-    void OnFileExit(wxCommandEvent&);
+    void OnPath(wxCommandEvent&);
 
-    void OnEditCameras(wxCommandEvent&);
-    void OnEditLocations(wxCommandEvent&);
-    void OnEditAlbums(wxCommandEvent&);
-    void OnEditPreferences(wxCommandEvent&);
+    bool TransferDataFromWindow();
+    bool TransferDataToWindow();
 
-    void OnPhotoEdit(wxCommandEvent&);
-    void OnPhotoMetadata(wxCommandEvent&);
-    void OnPhotoDelete(wxCommandEvent&);
-    void OnPhotoSlideShow(wxCommandEvent&);
-
-    void OnHelpAbout(wxCommandEvent&);
-
-    void OnPageChanged(wxNotebookEvent& evt);
+protected:
+    bool DoExport(const wxString& album);
 
 private:
-    wxNotebook *m_book;
-
-    PageBase* GetCurrentPage();
-
-    void InitMenu();
-    void InitToolBar();
+    wxChoice *m_albums;
+    wxTextCtrl *m_path;
 
     DECLARE_EVENT_TABLE()
 };
